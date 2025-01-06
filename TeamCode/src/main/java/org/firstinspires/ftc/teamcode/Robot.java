@@ -3,14 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.common.HangerSubsystem;
-import org.firstinspires.ftc.teamcode.common.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.common.LiftSubsystemDouble;
-import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HorizontalLiftSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.VerticalLiftSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystemDouble;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
@@ -24,24 +22,20 @@ public class Robot {
     public SubsystemTest test;
 
     public IntakeSubsystem intake;
-    public LiftSubsystemDouble lift;
-    public HangerSubsystem hanger;
+    public HorizontalLiftSubsystem h_lift;
+    public VerticalLiftSubsystem v_lift;
+    public MecanumDrive.HangerSubsystem hanger;
 
     private boolean isAuto = false;
-
     public Pose2d robotPose;
     private List<LynxModule> controllers;
 
     public Robot(HardwareMap hardwareMap, boolean isAuto){
         this.isAuto = isAuto;
-
         driveSubsystem = new MecanumDrive(hardwareMap, robotPose);
         intake = new IntakeSubsystem(hardwareMap, isAuto);
-        lift = new LiftSubsystemDouble(hardwareMap, isAuto);
-        hanger = new HangerSubsystem(hardwareMap, isAuto);
-
-        lift.rightArm.set(0);
-        lift.leftArm.set(0);
+        h_lift = new HorizontalLiftSubsystem(hardwareMap, isAuto);
+        hanger = new MecanumDrive.HangerSubsystem(hardwareMap, isAuto);
 
         if(isAuto){
             lift.rightArm.encoder.reset();
