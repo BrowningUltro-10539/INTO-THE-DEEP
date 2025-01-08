@@ -16,8 +16,6 @@ public class IntakeSubsystem{
     public void read(){}
     public void write(){}
     public void loop(){}
-    public void update(){
-
-    }
+    public void update(){}
 
 }
