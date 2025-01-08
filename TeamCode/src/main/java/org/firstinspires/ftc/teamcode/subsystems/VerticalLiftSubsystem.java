@@ -40,5 +40,7 @@ public class VerticalLiftSubsystem {
         lift2.setInverted(true);
         lift2.encoder.setDirection(MotorEx.Direction.REVERSE);
 
+        liftController = new PIDController(P, I, D);
+
     }
 }
