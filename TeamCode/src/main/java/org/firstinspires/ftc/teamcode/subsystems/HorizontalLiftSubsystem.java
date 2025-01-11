@@ -36,6 +36,7 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
                 new MotionState(0,0), 0, 0);
         // values are not final
         timer = new ElapsedTime(); voltageTimer = new ElapsedTime();
+        voltageSensor = hardwareMap.get(VoltageSensor.class, "voltageSensor");
     }
     public void loop(){
         // ask washieu about how on earth voltage plays a role in the loop :skull:
