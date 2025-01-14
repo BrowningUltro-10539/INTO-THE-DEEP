@@ -1,30 +1,29 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.geometry.Pose2d;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HorizontalLiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VerticalLiftSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystemDouble;
+//import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
+//import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystemDouble;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
-import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.SubsystemTest;
+//import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 
 import java.util.List;
 
 public class Robot {
 
     public MecanumDrive driveSubsystem;
-    public SubsystemTest test;
+    public HangerSubsystem test;
 
     public IntakeSubsystem intake;
     public HorizontalLiftSubsystem h_lift;
     public VerticalLiftSubsystem v_lift;
-    public MecanumDrive.HangerSubsystem hanger;
+//    public MecanumDrive.HangerSubsystem hanger;
 
     private boolean isAuto = false;
     public Pose2d robotPose;
@@ -32,13 +31,13 @@ public class Robot {
 
     public Robot(HardwareMap hardwareMap, boolean isAuto){
         this.isAuto = isAuto;
-        driveSubsystem = new MecanumDrive(hardwareMap, robotPose);
+//        driveSubsystem = new MecanumDrive(hardwareMap, robotPose);
         intake = new IntakeSubsystem(hardwareMap, isAuto);
         h_lift = new HorizontalLiftSubsystem(hardwareMap, isAuto);
-        hanger = new MecanumDrive.HangerSubsystem(hardwareMap, isAuto);
+//        hanger = new MecanumDrive.HangerSubsystem(hardwareMap, isAuto);
 
         if(isAuto){
-            lift.rightArm.encoder.reset();
+//            lift.rightArm.encoder.reset();
         }
 
         controllers = hardwareMap.getAll(LynxModule.class);
@@ -50,8 +49,8 @@ public class Robot {
 
     public void read(){
         intake.read();
-        hanger.read();
-        lift.read();
+//        hanger.read();
+//        lift.read();
         test.read();
 
         if(isAuto){
@@ -61,7 +60,7 @@ public class Robot {
 
     public void write(){
         intake.write();
-        lift.write();
+//        lift.write();
 
         if(isAuto){
             //driveSubsystem.update();
@@ -69,12 +68,12 @@ public class Robot {
     }
 
     public void reset(){
-        lift.rightArm.resetEncoder();
-        lift.rightArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        lift.leftArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        intake.update(IntakeSubsystem.ArmState.ARM_START);
-        intake.update(IntakeSubsystem.RotateState.INTAKE);
-        intake.update(IntakeSubsystem.ClawState.CLOSED);
+//        lift.rightArm.resetEncoder();
+//        lift.rightArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+//        lift.leftArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+//        intake.update(IntakeSubsystem.ArmState.ARM_START);
+//        intake.update(IntakeSubsystem.RotateState.INTAKE);
+//        intake.update(IntakeSubsystem.ClawState.CLOSED);
     }
 
     public List<LynxModule> getControllers(){

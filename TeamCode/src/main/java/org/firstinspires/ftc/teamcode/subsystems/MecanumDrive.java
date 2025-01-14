@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-public class MecanumDrive {
+import com.arcrobotics.ftclib.command.SubsystemBase;
+
+public class MecanumDrive extends SubsystemBase {
 
 }

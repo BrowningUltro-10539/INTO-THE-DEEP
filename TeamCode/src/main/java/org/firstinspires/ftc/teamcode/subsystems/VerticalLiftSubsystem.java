@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class VerticalLiftSubsystem extends SubsystemBase {
@@ -14,12 +15,13 @@ public class VerticalLiftSubsystem extends SubsystemBase {
     private final PIDController controller;
     private MotionProfile profile;
     public MotionState state;
+    public VoltageSensor voltageSensor;
 
-    public static double P = 0.17, I = 0.0, D = 0.0;
+    public static double P = 0.17, I = 0.0, D = 0.0, kG = 0;
     private final ElapsedTime timer, voltageTimer;
-    private double liftPosition, targetLiftPosition;
+    private double liftPosition, targetLiftPosition, liftPower, voltage;
 
-    public double liftPower;
+
     private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 145.1;
     private boolean isAuto = false;
     public VerticalLiftSubsystem(HardwareMap hardwareMap, boolean isAuto){
@@ -29,15 +31,26 @@ public class VerticalLiftSubsystem extends SubsystemBase {
         controller.setPID(P, I, D);
         this.isAuto = isAuto;
 
-
         profile = MotionProfileGenerator.generateSimpleMotionProfile(new MotionState(1, 0),
                 new MotionState(0,0), 0, 0);
         // values are not final
         timer = new ElapsedTime(); voltageTimer = new ElapsedTime();
+
+        voltageSensor = hardwareMap.get(VoltageSensor.class, "voltageSensor2");
+    }
+
+    public void loop(){
+//        if(voltageTimer.seconds() > 5){
+//            voltageTimer.reset();
+//            voltage = voltageSensor.getVoltage();
+//        }
+//        if(state.getV() != 0){
+//            targetLiftPosition = state.getX();
+//        }
+        liftPower = controller.calculate(liftPosition, targetLiftPosition) + kG;
     }
 
     public void read(){
-        liftPosition = lift1.encoder.getPosition() * SLIDE_TICK;
         liftPosition = lift2.encoder.getPosition() * SLIDE_TICK;
     }
     public void write(){
@@ -55,5 +68,6 @@ public class VerticalLiftSubsystem extends SubsystemBase {
                 new MotionState(targetPos, 0), max_v, max_a
         );
     }
+
 
 }

@@ -25,6 +25,8 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     public double liftPower;
     private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 145.1;
     private boolean isAuto = false;
+
+
     public HorizontalLiftSubsystem(HardwareMap hardwareMap, boolean isAuto){
         horizontalLift = new MotorEx(hardwareMap, "horizontalMotor");
         controller = new PIDController(P, I, D);
@@ -36,7 +38,9 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
                 new MotionState(0,0), 0, 0);
         // values are not final
         timer = new ElapsedTime(); voltageTimer = new ElapsedTime();
+        voltageSensor = hardwareMap.get(VoltageSensor.class, "voltageSensor");
     }
+
     public void loop(){
         // ask washieu about how on earth voltage plays a role in the loop :skull:
         // obviously I don't want to take anything for granted.
@@ -49,9 +53,13 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
         if (state.getV() != 0) {
             targetLiftPosition = state.getX();
         }
-        liftPower = controller.calculate(liftPosition, targetLiftPosition) / (voltage * 14);
+        liftPower = controller.calculate(liftPosition, targetLiftPosition) / voltage * 14;
     }
-
+    public void incrementSlide(double increment){
+        if(state.getV() != 0){
+            targetLiftPosition = liftPosition + increment;
+        }
+    }
     public void read(){
         liftPosition = horizontalLift.encoder.getPosition() * SLIDE_TICK;
     }

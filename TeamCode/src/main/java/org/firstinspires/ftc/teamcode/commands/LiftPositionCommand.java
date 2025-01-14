@@ -20,7 +20,11 @@ public class LiftPositionCommand extends CommandBase {
 
     @Override
     public void execute() {
-        lift.newProfile(position, max_v, max_a);
+        lift.setTargetLiftPosition(position);
+//        lift.newProfile(position, max_v, max_a);
+        /*
+        I'll consider re-implementing when I have a better idea of how to tune / control motion profiling
+         */
     }
 
     @Override
