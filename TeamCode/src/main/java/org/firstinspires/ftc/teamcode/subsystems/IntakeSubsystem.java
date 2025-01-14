@@ -2,8 +2,9 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class IntakeSubsystem{
     private ServoImplEx leftServo, rightServo, rotate, claw;
     // private final VoltageSensor voltageSensor;
 
