@@ -11,7 +11,7 @@ public class IntakeSubsystem{
     public static double CLAW_CLOSE = 0.1;
 
     public static double ROTATE_INTAKE = 0.1;
-    public static double ROTATE_OUTTAKE = -1;
+    public static double ROTATE_OUTTAKE = 0.0;
 
     public static double ARM_START = 0;
     public static double ARM_INTAKE = 1;
@@ -51,6 +51,22 @@ public class IntakeSubsystem{
         }
     }
 
+    public void update(ArmState state){
+        switch(state){
+            case ARM_INTAKE:
+                setArm(ARM_INTAKE);
+                break;
+            case ARM_DEPO:
+                setArm(ARM_DEPO);
+                break;
+            case ARM_THRU:
+                setArm(ARM_THRU);
+                break;
+            case ARM_START:
+                setArm(ARM_START);
+                break;
+        }
+    }
     public void setClaw(double pos){claw.setPosition(pos);}
     public void setArm(double pos){
         leftServo.setPosition(pos);

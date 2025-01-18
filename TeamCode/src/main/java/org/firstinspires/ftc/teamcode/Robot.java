@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HorizontalLiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VerticalLiftSubsystem;
@@ -32,13 +33,14 @@ public class Robot {
 
     public Robot(HardwareMap hardwareMap, boolean isAuto){
         this.isAuto = isAuto;
-        driveSubsystem = new MecanumDrive(hardwareMap, robotPose);
+        driveSubsystem = new MecanumDrive(new SampleMecanumDrive(hardwareMap), true);
         intake = new IntakeSubsystem(hardwareMap, isAuto);
         h_lift = new HorizontalLiftSubsystem(hardwareMap, isAuto);
-        hanger = new MecanumDrive.HangerSubsystem(hardwareMap, isAuto);
+        //hanger = new MecanumDrive.HangerSubsystem(hardwareMap, isAuto);
 
         if(isAuto){
-            lift.rightArm.encoder.reset();
+            h_lift.horizontalLift.encoder.reset();
+            v_lift.lift2.encoder.reset();
         }
 
         controllers = hardwareMap.getAll(LynxModule.class);
@@ -50,8 +52,9 @@ public class Robot {
 
     public void read(){
         intake.read();
-        hanger.read();
-        lift.read();
+        //hanger.read();
+        h_lift.read();
+        v_lift.read();
         test.read();
 
         if(isAuto){
@@ -61,17 +64,20 @@ public class Robot {
 
     public void write(){
         intake.write();
-        lift.write();
-
+        v_lift.write();
+        h_lift.write();
         if(isAuto){
             //driveSubsystem.update();
         }
     }
-
+    public void loop(){
+        h_lift.loop();
+        v_lift.loop();
+    }
     public void reset(){
-        lift.rightArm.resetEncoder();
-        lift.rightArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        lift.leftArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        //lift.rightArm.resetEncoder();
+        //lift.rightArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        //lift.leftArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         intake.update(IntakeSubsystem.ArmState.ARM_START);
         intake.update(IntakeSubsystem.RotateState.INTAKE);
         intake.update(IntakeSubsystem.ClawState.CLOSED);
