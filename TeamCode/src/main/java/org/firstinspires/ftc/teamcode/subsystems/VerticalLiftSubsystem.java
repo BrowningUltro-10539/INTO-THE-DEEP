@@ -7,7 +7,6 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class VerticalLiftSubsystem extends SubsystemBase {
@@ -19,9 +18,8 @@ public class VerticalLiftSubsystem extends SubsystemBase {
     public static double P = 0.17, I = 0.0, D = 0.0;
     private final ElapsedTime timer, voltageTimer;
     private double liftPosition, targetLiftPosition;
-    private VoltageSensor voltageSensor;
 
-    public double liftPower, voltage;
+    public double liftPower;
     private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 145.1;
     private boolean isAuto = false;
     public VerticalLiftSubsystem(HardwareMap hardwareMap, boolean isAuto){
@@ -36,18 +34,8 @@ public class VerticalLiftSubsystem extends SubsystemBase {
                 new MotionState(0,0), 0, 0);
         // values are not final
         timer = new ElapsedTime(); voltageTimer = new ElapsedTime();
-        voltageSensor = hardwareMap.get(VoltageSensor.class, "voltageSensor");
     }
-    public void loop(){
-        if(voltageTimer.time() > 5){
-            voltageTimer.reset();
-            voltage = voltageSensor.getVoltage();
-        }
-        if(state.getV() != 0){
-            targetLiftPosition = state.getX();
-        }
-        liftPower = controller.calculate(liftPosition, targetLiftPosition) / voltage * 14;
-    }
+
     public void read(){
         liftPosition = lift1.encoder.getPosition() * SLIDE_TICK;
         liftPosition = lift2.encoder.getPosition() * SLIDE_TICK;
@@ -56,7 +44,9 @@ public class VerticalLiftSubsystem extends SubsystemBase {
         lift1.set(liftPower);
         lift2.set(-liftPower);
     }
+
     public void setTargetLiftPosition(double v){targetLiftPosition = v;}
+
     public double getLiftPosition(){return liftPosition;}
 
     public void newProfile(double targetPos, double max_v, double max_a){

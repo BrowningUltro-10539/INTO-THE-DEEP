@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -10,6 +11,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
 @TeleOp
 public class V2DriveTrainTeleOp extends LinearOpMode {
@@ -41,12 +44,41 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
             double rx = gamepad1.right_stick_x;
 
             robot.read();
-            if(gamepad1.dpad_up){
-                CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.test.setPos(1)));
+            if (gamepad2.a) {
+                CommandScheduler.getInstance().schedule(
+                        new InstantCommand(() -> robot.intake.setArm(robot.intake.CLAW_OPEN)
+                        ));
             }
-            if(gamepad1.dpad_down){
-                CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.test.setPos(0)));
+            if (gamepad2.y) {
+                CommandScheduler.getInstance().schedule(
+                        new InstantCommand(() -> robot.intake.setArm(robot.intake.CLAW_CLOSE))
+                );
             }
+
+            if(gamepad2.dpad_up){
+                CommandScheduler.getInstance().schedule(
+                        new InstantCommand(() -> robot.intake.setRotate(robot.intake.ROTATE_OUTTAKE))
+                );
+            }
+
+            if(gamepad2.dpad_down){
+                CommandScheduler.getInstance().schedule(
+                        new InstantCommand(() -> robot.intake.setRotate(robot.intake.ROTATE_INTAKE))
+                );
+            }
+
+            if(gamepad2.b){
+                CommandScheduler.getInstance().schedule(
+                        new InstantCommand(() -> robot.intake.setRotate(robot.intake.CLAW_OPEN))
+                );
+            }
+
+            if(gamepad2.x){
+                CommandScheduler.getInstance().schedule(
+                        new InstantCommand(() -> robot.intake.setRotate(robot.intake.CLAW_CLOSE))
+                );
+            }
+
 
             if (gamepad1.options) {
                 imu.resetYaw();
@@ -69,7 +101,6 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
-
 
 
             CommandScheduler.getInstance().run();
