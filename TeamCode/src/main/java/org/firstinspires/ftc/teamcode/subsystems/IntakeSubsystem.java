@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
-import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 public class IntakeSubsystem{
-    private ServoImplEx leftServo, rightServo, rotate, claw;
+    public ServoImplEx clawServo, rotate;
     // private final VoltageSensor voltageSensor;
 
     public static double CLAW_OPEN = 0.7;
@@ -25,38 +23,11 @@ public class IntakeSubsystem{
     private double voltage;
 
     public IntakeSubsystem(HardwareMap hardwareMap, boolean isAuto){
-        leftServo = hardwareMap.get(ServoImplEx.class, "leftPivot");
-        rightServo = hardwareMap.get(ServoImplEx.class, "rightPivot");
+        clawServo = hardwareMap.get(ServoImplEx.class, "clawServo");
         rotate = hardwareMap.get(ServoImplEx.class, "rotate");
-        claw = hardwareMap.get(ServoImplEx.class, "claw");
     }
 
-    public void update(ClawState state){
-        switch(state){
-            case CLOSED:
-                setClaw(CLAW_OPEN);
-                break;
-            case OPEN:
-                setClaw(CLAW_CLOSE);
-                break;
-        }
-    }
-
-    public void update(RotateState state){
-        switch (state){
-            case INTAKE:
-                setRotate(ROTATE_INTAKE);
-                break;
-            case TRANSFER:
-                setRotate(ROTATE_OUTTAKE);
-        }
-    }
-
-    public void setClaw(double pos){claw.setPosition(pos);}
-    public void setArm(double pos){
-        leftServo.setPosition(pos);
-        rightServo.setPosition(1 - pos);
-    }
+    public void setClaw(double pos){clawServo.setPosition(pos);}
     public void setRotate(double pos){rotate.setPosition(pos);}
     public void read(){}
     public void write(){}

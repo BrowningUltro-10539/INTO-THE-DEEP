@@ -42,8 +42,6 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     }
 
     public void loop(){
-        // ask washieu about how on earth voltage plays a role in the loop :skull:
-        // obviously I don't want to take anything for granted.
         if (voltageTimer.seconds() > 5) {
             voltage = voltageSensor.getVoltage();
             voltageTimer.reset();
@@ -55,11 +53,7 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
         }
         liftPower = controller.calculate(liftPosition, targetLiftPosition) / voltage * 14;
     }
-    public void incrementSlide(double increment){
-        if(state.getV() != 0){
-            targetLiftPosition = liftPosition + increment;
-        }
-    }
+
     public void read(){
         liftPosition = horizontalLift.encoder.getPosition() * SLIDE_TICK;
     }
