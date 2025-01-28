@@ -35,7 +35,7 @@ public class Robot {
         intake = new IntakeSubsystem(hardwareMap, isAuto);
         h_lift = new HorizontalLiftSubsystem(hardwareMap, isAuto);
 //        hanger = new MecanumDrive.HangerSubsystem(hardwareMap, isAuto);
-
+        v_lift = new VerticalLiftSubsystem(hardwareMap, isAuto);
         if(isAuto){
 //            lift.rightArm.encoder.reset();
         }
@@ -49,10 +49,8 @@ public class Robot {
 
     public void read(){
         intake.read();
-//        hanger.read();
-//        lift.read();
-        test.read();
-
+        h_lift.read();
+        v_lift.read();
         if(isAuto){
             //driveSubsystem.getPoseEstimate();
         }
@@ -61,7 +59,6 @@ public class Robot {
     public void write(){
         intake.write();
 //        lift.write();
-
         if(isAuto){
             //driveSubsystem.update();
         }
