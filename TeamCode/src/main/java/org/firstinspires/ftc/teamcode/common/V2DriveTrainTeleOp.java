@@ -76,7 +76,7 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
                         new ParallelCommandGroup(new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_CLOSE)),
                         new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_TRANSFER)),
                         new LiftPositionCommand(robot.h_lift, 20, 4, 20, 2)), new WaitCommand(100),
-                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP)), new WaitCommand(100),
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_FROM_INTAKE)), new WaitCommand(100),
                         new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_TRANSFER)),
                         new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new WaitCommand(100),
                         new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN)), new WaitCommand(100)
@@ -117,7 +117,7 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
                         new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)),
                         new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_TRANSFER)), // we don't want claw to get caught in the bin when we retract.
                         new LiftPositionCommand2(robot.v_lift, -2, 2, 20, 2),
-                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP))
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_FROM_INTAKE))
                 ));
             }
 
