@@ -57,12 +57,14 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
             }
             if(gamepad1.dpad_down){
                 CommandScheduler.getInstance().schedule(new ParallelCommandGroup( new LiftPositionCommand2(robot.v_lift, -2, 4, 200, 2),
-                new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_RIGHT)),
+                new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)),
                 new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_TRANSFER))
                 ));
             }
             if(gamepad1.dpad_left){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand2(robot.v_lift, 20, 4, 200, 2));
+                CommandScheduler.getInstance().schedule(new ParallelCommandGroup( new LiftPositionCommand2(robot.v_lift, 20, 4, 200, 2),
+                new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)),
+                new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_TRANSFER))));
             }
 
             if(gamepad1.cross){ // intake -> outtake transfer.
@@ -71,13 +73,16 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
                 Optimize with ParallelCommandGroup when necessary
                  */
                 CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
-                        new LiftPositionCommand(robot.h_lift, 20, 4, 20, 2), new WaitCommand(100),
+                        new ParallelCommandGroup(new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_CLOSE)),
+                        new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_TRANSFER)),
+                        new LiftPositionCommand(robot.h_lift, 20, 4, 20, 2)), new WaitCommand(100),
                         new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP)), new WaitCommand(100),
-                        new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.ROTATE_TRANSFER)), new WaitCommand(100),
+                        new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_TRANSFER)),
                         new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new WaitCommand(100),
-                        new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN)), new WaitCommand(100),
-                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_RIGHT)
-                )));
+                        new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN)), new WaitCommand(100)
+//                        ,new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_RIGHT)),
+//                        new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SAMPLES))
+                ));
             }
 
             if(gamepad1.square){ // specimen intake
@@ -106,13 +111,13 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
             }
             if(gamepad1.circle){
                 CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
-                        new LiftPositionCommand2(robot.v_lift, 20, 2, 20, 2),
-                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),  new WaitCommand(100), // roughly this arm pos?
-                        new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SAMPLES)),  new WaitCommand(100),
+//                        new LiftPositionCommand2(robot.v_lift, 20, 2, 20, 2),
+//                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.A)),  new WaitCommand(100), // roughly this arm pos?
+                        new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_DEPOSIT)),  new WaitCommand(100),
                         new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)),
-                        new InstantCommand(() -> robot.outtake.setRotate(1)), // we don't want claw to get caught in the bin when we retract.
+                        new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_TRANSFER)), // we don't want claw to get caught in the bin when we retract.
                         new LiftPositionCommand2(robot.v_lift, -2, 2, 20, 2),
-                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_RIGHT))
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP))
                 ));
             }
 

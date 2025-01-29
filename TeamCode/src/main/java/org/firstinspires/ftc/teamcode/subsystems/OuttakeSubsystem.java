@@ -14,9 +14,11 @@ public class OuttakeSubsystem {
 
     public static double CLAW_OPEN = 0.5, CLAW_CLOSE = 0.32;
 
-    public static double ROTATE_TRANSFER = 0; // claw rotate position to transfer from intake -> outtake
-    public static double ROTATE_SPECIMEN = 0; // claw rotate position to place specimen.
+    public static double ROTATE_TRANSFER = 0.6; // claw rotate position to transfer from intake -> outtake
+    public static double ROTATE_SPECIMEN = 0.18; // claw rotate position to place specimen.
     public static double ROTATE_SAMPLES = 0;
+
+    public static double ROTATE_DEPOSIT = 1;
 
     public OuttakeSubsystem(HardwareMap hardwareMap, boolean isAuto){
         leftArm = hardwareMap.get(ServoImplEx.class, "leftArm");
