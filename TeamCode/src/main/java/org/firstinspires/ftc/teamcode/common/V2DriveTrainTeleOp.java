@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,7 +13,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand2;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 
 @TeleOp
 public class V2DriveTrainTeleOp extends LinearOpMode {
@@ -45,34 +49,64 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
             robot.read();
             if(gamepad1.dpad_up){
                 // Not tuned
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand2(robot.v_lift, 20, 200, 200, 2));
+                CommandScheduler.getInstance().schedule(new LiftPositionCommand2(robot.v_lift, 20, 4, 200, 2));
             }
             if(gamepad1.dpad_down){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand2(robot.v_lift, 0, 200, 200, 2));
+                CommandScheduler.getInstance().schedule(new LiftPositionCommand2(robot.v_lift, -2, 4, 200, 2));
             }
             if(gamepad1.dpad_left){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand2(robot.v_lift, 20, 200, 200, 2));
+                CommandScheduler.getInstance().schedule(new LiftPositionCommand2(robot.v_lift, 20, 4, 200, 2));
             }
 
             if(gamepad1.cross){ // intake -> outtake transfer.
+                /*
+                Pseudocode: move slides to appropriate position, rotate outtake arm  and rotate outtake claw, close outtake claw and open intake claw, move arm.
+                Optimize with ParallelCommandGroup when necessary
+                 */
                 CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
-                        new InstantCommand(() -> robot.intake.setClaw(0)),
-                        new WaitCommand(100),
-                        new InstantCommand(() -> robot.intake.setRotate(1)),
-                        new WaitCommand(100),
-                        new InstantCommand(() -> robot.intake.setClaw(0)),
-                        new WaitCommand(100),
+                        new LiftPositionCommand(robot.h_lift, 20, 4, 20, 2), new WaitCommand(100),
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP)), new WaitCommand(100),
+                        new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.ROTATE_TRANSFER)), new WaitCommand(100),
+                        new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new WaitCommand(100),
+                        new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN)), new WaitCommand(100),
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_RIGHT))
                 ));
             }
 
-            if(gamepad1.square){
-
+            if(gamepad1.square){ // specimen intake
+                // Move intake claw to correct rotation, shift horizontal slide into submersible, rotate intake claw and pick up sample and retract to prepare for outtake transfer.
+                CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                        new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_ENTER)), new WaitCommand(100),
+                        new LiftPositionCommand(robot.h_lift, 30, 4, 20, 2), new WaitCommand(100),
+                        new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_PICKUP)), new WaitCommand(300),
+                        new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_CLOSE)),
+                        new ParallelCommandGroup(
+                                new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_ENTER)),
+                                new LiftPositionCommand(robot.h_lift, 20, 4, 20, 2)
+                        )
+                ));
             }
             if(gamepad1.triangle){
-
+                // move vertical slides to appropriate height, rotate outtake arm / claw to appropriate position to clip sample???
+                CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                        new LiftPositionCommand2(robot.v_lift, 15, 2, 20, 2),
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),  new WaitCommand(100), // roughly this arm pos?
+                        new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN)),  new WaitCommand(100),
+                        new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)),
+                        new LiftPositionCommand2(robot.v_lift, -2, 2, 20, 2),
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_RIGHT))
+                ));
             }
             if(gamepad1.circle){
-
+                CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                        new LiftPositionCommand2(robot.v_lift, 20, 2, 20, 2),
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),  new WaitCommand(100), // roughly this arm pos?
+                        new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SAMPLES)),  new WaitCommand(100),
+                        new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)),
+                        new InstantCommand(() -> robot.outtake.setRotate(1)), // we don't want claw to get caught in the bin when we retract.
+                        new LiftPositionCommand2(robot.v_lift, -2, 2, 20, 2),
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_RIGHT))
+                ));
             }
 
             if (gamepad1.options) {
@@ -99,6 +133,7 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
 
             CommandScheduler.getInstance().run();
             robot.write();
+            robot.loop();
         }
     }
 }

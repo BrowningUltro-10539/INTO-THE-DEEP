@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class VerticalLiftSubsystem extends SubsystemBase {
@@ -15,11 +16,12 @@ public class VerticalLiftSubsystem extends SubsystemBase {
     private MotionProfile profile;
     public MotionState state;
 
-    public static double P = 0.17, I = 0.0, D = 0.0;
+    public static double P = 0.15, I = 0.0, D = 0.0, kG = 0.027;
     private final ElapsedTime timer, voltageTimer;
     private double liftPosition, targetLiftPosition;
+    public VoltageSensor voltageSensor;
 
-    public double liftPower;
+    public double liftPower, voltage;
     private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 145.1;
     private boolean isAuto = false;
     public VerticalLiftSubsystem(HardwareMap hardwareMap, boolean isAuto){
@@ -31,15 +33,29 @@ public class VerticalLiftSubsystem extends SubsystemBase {
 
 
         profile = MotionProfileGenerator.generateSimpleMotionProfile(new MotionState(1, 0),
-                new MotionState(0,0), 0, 0);
+                new MotionState(0,0), 30, 25);
         // values are not final
         timer = new ElapsedTime(); voltageTimer = new ElapsedTime();
+        voltageSensor = hardwareMap.get(VoltageSensor.class, "voltageSensor");
+        this.isAuto = isAuto;
+    }
+
+    public void loop(){
+        if (voltageTimer.seconds() > 5) {
+            voltage = voltageSensor.getVoltage();
+            voltageTimer.reset();
+        }
+        state = profile.get(timer.time());
+        if (state.getV() != 0) {
+            targetLiftPosition = state.getX();
+        }
+        liftPower = (controller.calculate(liftPosition, targetLiftPosition) + kG) / voltage * 14;
     }
 
     public void read(){
-        liftPosition = lift1.encoder.getPosition() * SLIDE_TICK;
         liftPosition = lift2.encoder.getPosition() * SLIDE_TICK;
     }
+
     public void write(){
         lift1.set(liftPower);
         lift2.set(-liftPower);

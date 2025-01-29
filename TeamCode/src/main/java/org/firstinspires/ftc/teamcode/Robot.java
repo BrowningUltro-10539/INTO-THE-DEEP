@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.geometry.Pose2d;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HorizontalLiftSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VerticalLiftSubsystem;
 //import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 //import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystemDouble;
@@ -21,6 +23,7 @@ public class Robot {
     public HangerSubsystem test;
 
     public IntakeSubsystem intake;
+    public OuttakeSubsystem outtake;
     public HorizontalLiftSubsystem h_lift;
     public VerticalLiftSubsystem v_lift;
 //    public MecanumDrive.HangerSubsystem hanger;
@@ -58,19 +61,25 @@ public class Robot {
 
     public void write(){
         intake.write();
-//        lift.write();
+        v_lift.write(); h_lift.write();
         if(isAuto){
             //driveSubsystem.update();
         }
     }
 
+    public void loop(){
+        h_lift.loop();
+        v_lift.loop();
+    }
+
     public void reset(){
-//        lift.rightArm.resetEncoder();
-//        lift.rightArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-//        lift.leftArm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-//        intake.update(IntakeSubsystem.ArmState.ARM_START);
-//        intake.update(IntakeSubsystem.RotateState.INTAKE);
-//        intake.update(IntakeSubsystem.ClawState.CLOSED);
+        h_lift.horizontalLift.resetEncoder();
+        v_lift.lift2.resetEncoder();
+        h_lift.horizontalLift.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        v_lift.lift1.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        v_lift.lift2.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        intake.setRotate(IntakeSubsystem.ROTATE_INTAKE);
+        intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
     }
 
     public List<LynxModule> getControllers(){
