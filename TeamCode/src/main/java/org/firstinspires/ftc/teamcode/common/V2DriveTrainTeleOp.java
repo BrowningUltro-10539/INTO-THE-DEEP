@@ -49,7 +49,9 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
             robot.read();
             if(gamepad1.dpad_up){
                 // Not tuned
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand2(robot.v_lift, 20, 4, 200, 2));
+                CommandScheduler.getInstance().schedule(new LiftPositionCommand2(robot.v_lift, 20, 4, 200, 2),
+                new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)
+                ));
             }
             if(gamepad1.dpad_down){
                 CommandScheduler.getInstance().schedule(new LiftPositionCommand2(robot.v_lift, -2, 4, 200, 2));
@@ -69,8 +71,8 @@ public class V2DriveTrainTeleOp extends LinearOpMode {
                         new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.ROTATE_TRANSFER)), new WaitCommand(100),
                         new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new WaitCommand(100),
                         new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN)), new WaitCommand(100),
-                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_RIGHT))
-                ));
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_RIGHT)
+                )));
             }
 
             if(gamepad1.square){ // specimen intake
