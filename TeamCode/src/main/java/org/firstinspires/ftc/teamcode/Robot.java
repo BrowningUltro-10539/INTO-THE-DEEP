@@ -42,7 +42,7 @@ public class Robot {
         if(isAuto){
 //            lift.rightArm.encoder.reset();
         }
-
+        outtake = new OuttakeSubsystem(hardwareMap, isAuto);
         controllers = hardwareMap.getAll(LynxModule.class);
     }
 
@@ -73,7 +73,7 @@ public class Robot {
     }
 
     public void reset(){
-        h_lift.horizontalLift.resetEncoder();
+        h_lift.horizontalLift.
         v_lift.lift2.resetEncoder();
         h_lift.horizontalLift.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         v_lift.lift1.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);

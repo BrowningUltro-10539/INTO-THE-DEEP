@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
 import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 
 @Config
@@ -18,8 +19,10 @@ public class SlideTestOpMode extends OpMode {
     }
     @Override
     public void loop(){
-        CommandScheduler.getInstance().schedule(
-                new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT))
-        );
+        if(gamepad1.a){
+            CommandScheduler.getInstance().schedule(
+                    new LiftPositionCommand(robot.h_lift, 30, )
+            );
+        }
     }
 }

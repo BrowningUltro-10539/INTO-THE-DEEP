@@ -17,7 +17,7 @@ public class VerticalLiftSubsystem extends SubsystemBase {
     public MotionState state;
 
     public static double P = 0.15, I = 0.0, D = 0.0, kG = 0.027;
-    private final ElapsedTime timer, voltageTimer;
+//    private final ElapsedTime timer, voltageTimer;
     private double liftPosition, targetLiftPosition;
     public VoltageSensor voltageSensor;
 
@@ -32,24 +32,24 @@ public class VerticalLiftSubsystem extends SubsystemBase {
         this.isAuto = isAuto;
 
 
-        profile = MotionProfileGenerator.generateSimpleMotionProfile(new MotionState(1, 0),
-                new MotionState(0,0), 30, 25);
+//        profile = MotionProfileGenerator.generateSimpleMotionProfile(new MotionState(1, 0),
+//                new MotionState(0,0), 30, 25);
         // values are not final
-        timer = new ElapsedTime(); voltageTimer = new ElapsedTime();
-        voltageSensor = hardwareMap.get(VoltageSensor.class, "voltageSensor");
+//        timer = new ElapsedTime(); voltageTimer = new ElapsedTime();
+//        voltageSensor = hardwareMap.get(VoltageSensor.class, "voltageSensor");
         this.isAuto = isAuto;
     }
 
     public void loop(){
-        if (voltageTimer.seconds() > 5) {
-            voltage = voltageSensor.getVoltage();
-            voltageTimer.reset();
-        }
-        state = profile.get(timer.time());
-        if (state.getV() != 0) {
-            targetLiftPosition = state.getX();
-        }
-        liftPower = (controller.calculate(liftPosition, targetLiftPosition) + kG) / voltage * 14;
+//        if (voltageTimer.seconds() > 5) {
+//            voltage = voltageSensor.getVoltage();
+//            voltageTimer.reset();
+//        }
+//        state = profile.get(timer.time());
+//        if (state.getV() != 0) {
+//            targetLiftPosition = state.getX();
+//        }
+        liftPower = (controller.calculate(liftPosition, targetLiftPosition) + kG);
     }
 
     public void read(){
@@ -57,8 +57,8 @@ public class VerticalLiftSubsystem extends SubsystemBase {
     }
 
     public void write(){
-        lift1.set(liftPower);
-        lift2.set(-liftPower);
+        lift1.set(-liftPower);
+        lift2.set(liftPower);
     }
 
     public void setTargetLiftPosition(double v){targetLiftPosition = v;}

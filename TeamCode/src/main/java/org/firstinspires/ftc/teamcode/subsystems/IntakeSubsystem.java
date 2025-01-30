@@ -5,10 +5,11 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 public class IntakeSubsystem{
-    public ServoImplEx clawServo, rotate;
+    public Servo clawServo, rotate;
     // private final VoltageSensor voltageSensor;
 
     public static double CLAW_OPEN = 0.5;
@@ -23,10 +24,9 @@ public class IntakeSubsystem{
     private double voltage;
 
     public IntakeSubsystem(HardwareMap hardwareMap, boolean isAuto){
-        clawServo = hardwareMap.get(ServoImplEx.class, "clawServo");
-        rotate = hardwareMap.get(ServoImplEx.class, "rotate");
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        rotate = hardwareMap.get(Servo.class, "rotate");
     }
-
 
     public void setClaw(double pos){clawServo.setPosition(pos);}
     public void setRotate(double pos){rotate.setPosition(pos);}
