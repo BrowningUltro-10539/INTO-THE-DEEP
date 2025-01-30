@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
-public class OuttakeSubsystem {
+public class OuttakeSubsystem extends SubsystemBase {
     public ServoImplEx leftArm, rightArm, claw, rotate;
     public static double ARM_RIGHT = 0;
     public static double ARM_PICKUP_FROM_INTAKE = 0.8; // position of outtake arm that picks up from intake claw

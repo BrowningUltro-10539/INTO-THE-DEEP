@@ -22,7 +22,7 @@ public class VerticalLiftSubsystem extends SubsystemBase {
     public VoltageSensor voltageSensor;
 
     public double liftPower, voltage;
-    private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 145.1;
+    private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 537.7;
     private boolean isAuto = false;
     public VerticalLiftSubsystem(HardwareMap hardwareMap, boolean isAuto){
         lift1 = new MotorEx(hardwareMap, "verticalM1");

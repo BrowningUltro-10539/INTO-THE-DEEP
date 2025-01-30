@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.Auto;
+package org.firstinspires.ftc.teamcode.common.auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -31,50 +31,46 @@ public class TestAuto extends LinearOpMode {
 
         // see diagrams in portfolio for better understanding of trajectories.
         Trajectory toScoreSpecimen = robot.driveSubsystem.trajectoryBuilder(startPose)
-                .splineTo(new Vector2d(50,30), 0)
+                .splineTo(new Vector2d(0,22), 0)
                 .build();
 
         Trajectory firstSpecimen = robot.driveSubsystem.trajectoryBuilder(toScoreSpecimen.end())
-                .splineTo(new Vector2d(50,30), 0)
-                .splineTo(new Vector2d(50, 30), 0) // prevents colliding with submersible.
+                .splineTo(new Vector2d(-30, 38), 0)
+                .splineTo(new Vector2d(-45, 0), 0) // prevents colliding with submersible.
                 .build();
 
         Trajectory firstDeposit = robot.driveSubsystem.trajectoryBuilder(firstSpecimen.end())
-                .splineTo(new Vector2d(50,30), 0)
+                .splineTo(new Vector2d(-54,64), 0)
                 .build();
 
         Trajectory secondSpecimen = robot.driveSubsystem.trajectoryBuilder(firstDeposit.end())
-                .splineTo(new Vector2d(50,30), 0)
+                .splineTo(new Vector2d(-60,15), 0)
                 .build();
 
         Trajectory secondDeposit = robot.driveSubsystem.trajectoryBuilder(secondSpecimen.end())
-                .splineTo(new Vector2d(50,30), 0)
+                .splineTo(new Vector2d(-64,64), 0)
                 .build();
 
         Trajectory thirdSpecimen = robot.driveSubsystem.trajectoryBuilder(secondDeposit.end())
-                .splineTo(new Vector2d(50,30), 0)
+                .splineTo(new Vector2d(-68,15), 0)
                 .build();
 
         Trajectory thirdDeposit = robot.driveSubsystem.trajectoryBuilder(thirdSpecimen.end())
-                .splineTo(new Vector2d(50,30), 0)
+                .splineTo(new Vector2d(-70,64), 0)
                 .build();
 
         Trajectory specimenPickup = robot.driveSubsystem.trajectoryBuilder(thirdDeposit.end())
-                .splineTo(new Vector2d(50,30), 0)
-                .build();
-
-        Trajectory toStartPose = robot.driveSubsystem.trajectoryBuilder(specimenPickup.end())
-                .splineTo(new Vector2d(33,60), 0)
+                .splineTo(new Vector2d(-52,70), 0)
                 .build();
 
         Trajectory specimenPickup2 = robot.driveSubsystem.trajectoryBuilder(toScoreSpecimen.end())
-                .splineTo(new Vector2d(50,30), 0)
+                .splineTo(new Vector2d(-52,70), 0)
                 .build();
 
         boolean samples_collected = false;
         telemetry.setMsTransmissionInterval(50);
 
-        while(!isStarted() && !isStopRequested()){
+        while(isStarted() && !isStopRequested()){
             robot.reset();
 
             for(LynxModule module : robot.getControllers()){
@@ -113,7 +109,6 @@ public class TestAuto extends LinearOpMode {
                             new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_TRANSFER))
                     ));
                 }
-                robot.driveSubsystem.followTrajectory(toStartPose);
                 CommandScheduler.getInstance().run();
                 robot.write();
 
