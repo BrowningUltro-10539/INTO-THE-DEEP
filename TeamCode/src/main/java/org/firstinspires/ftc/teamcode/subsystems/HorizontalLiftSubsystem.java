@@ -6,14 +6,12 @@ import com.acmerobotics.roadrunner.profile.MotionState;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class HorizontalLiftSubsystem extends SubsystemBase {
-    public final DcMotorEx horizontalLift;
+    public final MotorEx horizontalLift;
     private final PIDController controller;
     private MotionProfile profile;
     public MotionState state;
@@ -30,12 +28,11 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     private boolean isAuto = false;
 
     public HorizontalLiftSubsystem(HardwareMap hardwareMap, boolean isAuto){
-        horizontalLift = hardwareMap.get(DcMotorEx.class, "horizontalLift");
+        horizontalLift = new MotorEx(hardwareMap, "horizontalMotor");
         controller = new PIDController(P, I, D);
         controller.setPID(P, I, D);
         this.isAuto = isAuto;
 
-        horizontalLift.setDirection(DcMotorSimple.Direction.REVERSE);
         // values are not final
     }
     public void loop(){
@@ -54,10 +51,10 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     }
 
     public void read(){
-        liftPosition = horizontalLift.getCurrentPosition() * SLIDE_TICK;
+        liftPosition = horizontalLift.encoder.getPosition() * SLIDE_TICK;
     }
     public void write(){
-        horizontalLift.setPower(liftPower);
+        horizontalLift.set(-liftPower);
     }
 
     public void setTargetLiftPosition(double v){targetLiftPosition = v;}

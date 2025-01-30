@@ -73,13 +73,13 @@ public class Robot {
     }
 
     public void reset(){
-        h_lift.horizontalLift.
-        v_lift.lift2.resetEncoder();
-        h_lift.horizontalLift.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        v_lift.lift1.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        v_lift.lift2.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        intake.setRotate(IntakeSubsystem.ROTATE_INTAKE);
-        intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
+//        h_lift.horizontalLift.
+//        v_lift.lift2.resetEncoder();
+//        h_lift.horizontalLift.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+//        v_lift.lift1.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+//        v_lift.lift2.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+//        intake.setRotate(IntakeSubsystem.ROTATE_INTAKE);
+//        intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
     }
 
     public List<LynxModule> getControllers(){
