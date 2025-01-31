@@ -12,11 +12,11 @@ public class OuttakeSubsystem extends SubsystemBase {
     public static double ARM_MIDPOINT = 0.6; // arm mid point
 
     public static double ARM_DEPOSIT = 0.85; // arm position when we deposit samples and specimen.
-    public static double ARM_PICKUP_SPECIMEN = 0.38; // arm position when we intake specimen.
+    public static double ARM_PICKUP_SPECIMEN = 0.365; // arm position when we intake specimen.
     public static double CLAW_OPEN = 0.5, CLAW_CLOSE = 0.32, claw_pos = 0.32;
 
     public static double ROTATE_SPECIMEN_PICKUP = 0.18; // dpad up (outtake claw faces wall to grab specimen hanging on the wall)
-    public static double ROTATE_SPECIMEN_SCORE = 0.6; // outtake claw faces
+    public static double ROTATE_SPECIMEN_SCORE = 0.7; // outtake claw faces
 
     public OuttakeSubsystem(HardwareMap hardwareMap, boolean isAuto){
         leftArm = hardwareMap.get(ServoImplEx.class, "leftArm");
