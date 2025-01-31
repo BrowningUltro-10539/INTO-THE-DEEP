@@ -1,73 +1,103 @@
-package org.firstinspires.ftc.teamcode.common.Auto;
+package org.firstinspires.ftc.teamcode.common.auto;
 
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 
 
 @Autonomous
 public class TimeBasedRight extends LinearOpMode {
-    Robot robot = new Robot(hardwareMap, false);// Use a Pushbot's hardware
-    private ElapsedTime runtime = new ElapsedTime();
 
-
-
-    DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
-    DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeft");
-    DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
-    DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
-
-
-
-
-    static final double FORWARD_SPEED = 0.6;
-    static final double TURN_SPEED    = 0.5;
 
     @Override
     public void runOpMode() {
-
-        /*
-         * Initialize the drive system variables.
-         * The init() method of the hardware class does all the work here
-         */
+        Robot robot = new Robot(hardwareMap, false);// Use a Pushbot's hardware
+        ElapsedTime runtime = new ElapsedTime();
 
 
-        // Send telemetry message to signify robot waiting;
+        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
+        DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeft");
+        DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
+        DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
+
+        final double FORWARD_SPEED = 0.6;
+        final double TURN_SPEED    = 0.5;
+
+
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
+        // set arm to midpoint continaing preloaded specimen and set intake claw to correct pivot position.
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_SCORE)),
+                new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
+                new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_ENTER))
+        ));
 
-        // Step 1:  Drive forward for 3 seconds
+        // move forward
         runtime.reset();
+        frontRightMotor.setPower(FORWARD_SPEED);
+        frontLeftMotor.setPower(FORWARD_SPEED);
+        backLeftMotor.setPower(FORWARD_SPEED);
+        backRightMotor.setPower(FORWARD_SPEED);
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        // score specimen
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)),
+                new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN))
+        ));
+
+        // move backwards
+        runtime.reset();
+        frontRightMotor.setPower(-FORWARD_SPEED);
+        frontLeftMotor.setPower(-FORWARD_SPEED);
+        backLeftMotor.setPower(-FORWARD_SPEED);
+        backRightMotor.setPower(-FORWARD_SPEED);
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
+        // turn 90 degrees right
+        runtime.reset();
+        frontRightMotor.setPower(TURN_SPEED);
+        frontLeftMotor.setPower(-TURN_SPEED);
+        backLeftMotor.setPower(TURN_SPEED);
+        backRightMotor.setPower(-TURN_SPEED);
+        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
+        // move forward to observation zone
+        runtime.reset();
+        frontRightMotor.setPower(FORWARD_SPEED);
+        frontLeftMotor.setPower(FORWARD_SPEED);
+        backLeftMotor.setPower(FORWARD_SPEED);
+        backRightMotor.setPower(FORWARD_SPEED);
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        // Step 2:  Spin right for 1.3 seconds
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
-            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-        // Step 3:  Drive Backwards for 1 Second
-
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-        // Step 4:  Stop and .
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
