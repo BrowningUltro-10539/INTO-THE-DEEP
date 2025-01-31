@@ -74,13 +74,13 @@ public class QualOpModeV2 extends LinearOpMode {
                 CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN)));
             }
 
-            if(gamepad1.dpad_up){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 20, 2, 100, 100));
-            }
-
-            if(gamepad1.dpad_down){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, -2, 2, 100, 100));
-            }
+//            if(gamepad1.dpad_up){
+//                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 20, 2, 100, 100));
+//            }
+//
+//            if(gamepad1.dpad_down){
+//                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, -2, 2, 100, 100));
+//            }
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y + x + rx) / denominator;
