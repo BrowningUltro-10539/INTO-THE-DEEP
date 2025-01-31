@@ -10,12 +10,9 @@ public class LiftPositionCommand extends CommandBase {
 
     private final HorizontalLiftSubsystem lift;
 
-    public LiftPositionCommand(HorizontalLiftSubsystem lift, double position, double allowed_error, double max_a, double max_v) {
+    public LiftPositionCommand(HorizontalLiftSubsystem lift, double position) {
         this.position = position;
         this.lift = lift;
-        this.allowed_error = allowed_error;
-        this.max_v = max_v;
-        this.max_a = max_a;
     }
 
     @Override

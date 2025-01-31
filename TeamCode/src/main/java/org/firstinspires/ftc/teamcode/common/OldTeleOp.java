@@ -14,12 +14,11 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
-import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand2;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 
 @TeleOp
-public class V2DriveTrainTeleOp extends LinearOpMode {
+public class OldTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Robot robot = new Robot(hardwareMap, false);
