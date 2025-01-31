@@ -10,15 +10,18 @@ public class LiftPositionCommand extends CommandBase {
 
     private final HorizontalLiftSubsystem lift;
 
-    public LiftPositionCommand(HorizontalLiftSubsystem lift, double position) {
+    public LiftPositionCommand(HorizontalLiftSubsystem lift, double position, double allowed_error, double v, double a) {
         this.position = position;
+        this.allowed_error = allowed_error;
         this.lift = lift;
+        this.max_v = v;
+        this.max_a = a;
     }
 
     @Override
     public void execute() {
-//
-//        lift.newProfile(position, max_v, max_a);
+
+        lift.newProfile(position, max_v, max_a);
      lift.setTargetLiftPosition(position);
     }
 

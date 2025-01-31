@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HorizontalLiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
@@ -21,12 +22,17 @@ public class Robot {
 
     public MecanumDrive driveSubsystem;
     public HangerSubsystem test;
+    public SampleMecanumDrive sampleDrive;
 
     public IntakeSubsystem intake;
     public OuttakeSubsystem outtake;
     public HorizontalLiftSubsystem h_lift;
     public VerticalLiftSubsystem v_lift;
-//    public MecanumDrive.HangerSubsystem hanger;
+    public MecanumDrive drive;
+
+//    public HangerSubsystem hanger;
+
+    public HardwareMap hardwareMap;
 
     private boolean isAuto = false;
     public Pose2d robotPose;
@@ -34,10 +40,11 @@ public class Robot {
 
     public Robot(HardwareMap hardwareMap, boolean isAuto){
         this.isAuto = isAuto;
-//        driveSubsystem = new MecanumDrive(hardwareMap, robotPose);
+        this.hardwareMap = hardwareMap;
+        driveSubsystem = new MecanumDrive(sampleDrive, isAuto);
         intake = new IntakeSubsystem(hardwareMap, isAuto);
         h_lift = new HorizontalLiftSubsystem(hardwareMap, isAuto);
-//        hanger = new MecanumDrive.HangerSubsystem(hardwareMap, isAuto);
+//        hanger = new HangerSubsystem(hardwareMap, isAuto);
         v_lift = new VerticalLiftSubsystem(hardwareMap, isAuto);
         if(isAuto){
 //            lift.rightArm.encoder.reset();
