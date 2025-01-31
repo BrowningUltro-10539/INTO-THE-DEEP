@@ -23,13 +23,18 @@ public class QualOpMode extends LinearOpMode {
 
         Robot robot = new Robot(hardwareMap, false);
 
-//        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
-//        DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeft");
-//        DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
-//        DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
-//
-//        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
+        DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeft");
+        DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
+        DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
+
+        frontLeftMotor.setPower(0);
+        backLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backRightMotor.setPower(0);
+
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
         // init position for intake claw pivot and claw open respectivley
@@ -41,9 +46,9 @@ public class QualOpMode extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-//            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-//            double x = gamepad1.left_stick_x;
-//            double rx = gamepad1.right_stick_x;
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = gamepad1.left_stick_x;
+            double rx = gamepad1.right_stick_x;
 
             // gamepad 1. y = yellow, b = red, a = green, x = blue
             if(gamepad1.y){
@@ -78,16 +83,16 @@ public class QualOpMode extends LinearOpMode {
                 CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, -2, 2, 100, 100));
             }
 
-//            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-//            double frontLeftPower = (y + x + rx) / denominator;
-//            double backLeftPower = (y - x + rx) / denominator;
-//            double frontRightPower = (y - x - rx) / denominator;
-//            double backRightPower = (y + x - rx) / denominator;
-//
-//            frontLeftMotor.setPower(frontLeftPower);
-//            backLeftMotor.setPower(backLeftPower);
-//            frontRightMotor.setPower(frontRightPower);
-//            backRightMotor.setPower(backRightPower);
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+            double frontLeftPower = (y + x + rx) / denominator;
+            double backLeftPower = (y - x + rx) / denominator;
+            double frontRightPower = (y - x - rx) / denominator;
+            double backRightPower = (y + x - rx) / denominator;
+
+            frontLeftMotor.setPower(frontLeftPower);
+            backLeftMotor.setPower(backLeftPower);
+            frontRightMotor.setPower(frontRightPower);
+            backRightMotor.setPower(backRightPower);
 
             // gamepad 2. y = yellow, b = red, a = green, x = blue
 
@@ -116,7 +121,7 @@ public class QualOpMode extends LinearOpMode {
                 CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP)));
             }
 
-            if(gamepad2.dpad_up){
+            if(gamepad2.dpad_down){
                 CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_SCORE)));
 
             }

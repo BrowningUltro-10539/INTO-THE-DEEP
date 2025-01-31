@@ -12,7 +12,7 @@ public class OuttakeSubsystem extends SubsystemBase {
     public static double ARM_MIDPOINT = 0.6; // arm mid point
 
     public static double ARM_DEPOSIT = 0.85; // arm position when we deposit samples and specimen.
-    public static double ARM_PICKUP_SPECIMEN = 0.2; // arm position when we intake specimen.
+    public static double ARM_PICKUP_SPECIMEN = 0.38; // arm position when we intake specimen.
     public static double CLAW_OPEN = 0.5, CLAW_CLOSE = 0.32, claw_pos = 0.32;
 
     public static double ROTATE_SPECIMEN_PICKUP = 0.18; // dpad up (outtake claw faces wall to grab specimen hanging on the wall)
@@ -28,7 +28,9 @@ public class OuttakeSubsystem extends SubsystemBase {
     public void loop(){}
     public void read(){}
     public void write(){}
-    public void setRotate(double pos){rotate.setPosition(pos);}
+    public void setRotate(double pos){
+        rotate.setPosition(pos);
+    }
     public void setClaw(double pos){
         claw.setPosition(pos);
     }
