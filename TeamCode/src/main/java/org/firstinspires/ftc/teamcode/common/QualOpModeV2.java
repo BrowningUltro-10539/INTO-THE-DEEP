@@ -46,7 +46,7 @@ public class QualOpModeV2 extends LinearOpMode {
 
         while (opModeIsActive()) {
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-            double x = gamepad1.left_stick_x;
+            double x = gamepad1.left_stick_x * 1.1;
             double rx = gamepad1.right_stick_x;
 
             // gamepad 1. y = yellow, b = red, a = green, x = blue
@@ -88,11 +88,17 @@ public class QualOpModeV2 extends LinearOpMode {
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
+
             frontLeftMotor.setPower(frontLeftPower);
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
 
+            telemetry.addData("FrontLeft: ", frontLeftPower);
+            telemetry.addData("BackLeft: ", backLeftPower);
+            telemetry.addData("FrontRight: ", frontRightPower);
+            telemetry.addData("BackRight: ", backRightPower);
+            telemetry.update();
             // gamepad 2. y = yellow, b = red, a = green, x = blue
 
             if(gamepad2.y){

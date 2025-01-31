@@ -28,12 +28,15 @@ public class StrafeTest extends LinearOpMode {
 
             // Apply power for strafing
             frontLeftMotor.setPower(strafePower);
-            backLeftMotor.setPower(-strafePower);
-            frontRightMotor.setPower(-strafePower);
+            backLeftMotor.setPower(strafePower);
+            frontRightMotor.setPower(strafePower);
             backRightMotor.setPower(strafePower);
 
             // Telemetry for debugging
-            telemetry.addData("Strafe Power", strafePower);
+            telemetry.addData("FrontLeft: ", strafePower);
+            telemetry.addData("BackLeft: ", strafePower);
+            telemetry.addData("FrontRight: ", strafePower);
+            telemetry.addData("BackRight: ", strafePower);
             telemetry.update();
         }
 
