@@ -21,7 +21,7 @@ public class SlideTestOpMode extends OpMode {
     public void loop(){
         if(gamepad1.a){
             CommandScheduler.getInstance().schedule(
-                    new LiftPositionCommand(robot.h_lift, 30, )
+//                    new LiftPositionCommand(robot.h_lift, 30, )
             );
         }
     }
