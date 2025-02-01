@@ -122,7 +122,6 @@ public class QualOpModeV1 extends LinearOpMode {
 
             if(gamepad2.dpad_down){
                 CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_SCORE)));
-
             }
 
 

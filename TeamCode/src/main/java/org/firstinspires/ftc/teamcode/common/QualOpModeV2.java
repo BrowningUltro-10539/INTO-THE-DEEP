@@ -36,7 +36,7 @@ public class QualOpModeV2 extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
-        // init position for intake claw pivot and claw open respectivley
+        // init position for intake claw pivot and claw open respectively
         robot.reset();
         robot.read();
         robot.intake.setRotate(IntakeSubsystem.ROTATE_DOWN);

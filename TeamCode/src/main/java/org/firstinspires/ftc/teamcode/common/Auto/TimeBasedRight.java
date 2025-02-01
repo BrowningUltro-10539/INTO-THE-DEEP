@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.auto;
+package org.firstinspires.ftc.teamcode.common.Auto;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -19,7 +19,6 @@ import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 
 @Autonomous
 public class TimeBasedRight extends LinearOpMode {
-
 
     @Override
     public void runOpMode() {
@@ -42,7 +41,7 @@ public class TimeBasedRight extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // set arm to midpoint continaing preloaded specimen and set intake claw to correct pivot position.
+        // set arm to midpoint containing preloaded specimen and set intake claw to correct pivot position.
         CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
                 new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_SCORE)),
                 new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
