@@ -34,8 +34,6 @@ public class OuttakeSubsystem extends SubsystemBase {
     public void setClaw(double pos){
         claw.setPosition(pos);
     }
-
-
     public void setArmPos(double pos){
         leftArm.setPosition(pos);
         rightArm.setPosition(1 - pos);

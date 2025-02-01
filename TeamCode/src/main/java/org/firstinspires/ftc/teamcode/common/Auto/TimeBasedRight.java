@@ -2,14 +2,11 @@ package org.firstinspires.ftc.teamcode.common.Auto;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
@@ -34,8 +31,10 @@ public class TimeBasedRight extends LinearOpMode {
         final double FORWARD_SPEED = 0.6;
         final double TURN_SPEED    = 0.5;
 
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        telemetry.addData("Status", "Ready to run");    //
+        telemetry.addData("Status", "Ready to run");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -96,7 +95,6 @@ public class TimeBasedRight extends LinearOpMode {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

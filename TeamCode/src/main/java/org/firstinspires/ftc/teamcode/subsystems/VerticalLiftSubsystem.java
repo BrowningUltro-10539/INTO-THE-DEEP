@@ -30,26 +30,10 @@ public class VerticalLiftSubsystem extends SubsystemBase {
         controller = new PIDController(P, I, D);
         controller.setPID(P, I, D);
         this.isAuto = isAuto;
-
-
-//        profile = MotionProfileGenerator.generateSimpleMotionProfile(new MotionState(1, 0),
-//                new MotionState(0,0), 30, 25);
-        // values are not final
-//        timer = new ElapsedTime(); voltageTimer = new ElapsedTime();
-//        voltageSensor = hardwareMap.get(VoltageSensor.class, "voltageSensor");
-        this.isAuto = isAuto;
     }
 
     public void loop(){
-//        if (voltageTimer.seconds() > 5) {
-//            voltage = voltageSensor.getVoltage();
-//            voltageTimer.reset();
-//        }
-//        state = profile.get(timer.time());
-//        if (state.getV() != 0) {
-//            targetLiftPosition = state.getX();
-//        }
-        liftPower = (controller.calculate(liftPosition, targetLiftPosition) + kG);
+        liftPower = controller.calculate(liftPosition, targetLiftPosition) + kG;
     }
 
     public void read(){
@@ -57,7 +41,7 @@ public class VerticalLiftSubsystem extends SubsystemBase {
     }
 
     public void write(){
-        lift1.set(-liftPower);
+        lift1.set(liftPower);
         lift2.set(liftPower);
     }
 
