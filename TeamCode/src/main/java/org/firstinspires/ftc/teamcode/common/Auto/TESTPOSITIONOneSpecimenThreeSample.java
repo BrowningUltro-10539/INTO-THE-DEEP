@@ -30,14 +30,12 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         backRightMotor = hardwareMap.dcMotor.get("backRight");
 
         final double FORWARD_SPEED = 0.4;
-        final double STRAFE_SPEED  = 0.4;
+        final double STRAFE_SPEED = 0.4;
+        final double TURN_SPEED = 0.4; // Speed for turning
 
         // Reverse right motors to correct movement direction
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//
-//        telemetry.addData("Status", "Ready to run");
-//        telemetry.update();
 
         waitForStart();
 
@@ -59,7 +57,7 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         // Move back slightly
         drive(-FORWARD_SPEED, 0.3);
         sleep(500);
-//        // Move right slightly
+        // Move right slightly
         strafe(STRAFE_SPEED, 1.8);
         sleep(500);
         // Move forward past sample
@@ -72,24 +70,9 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         drive(-FORWARD_SPEED, 1.3);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_SPECIMEN);
 
-//
-//        // Move forward past second sample
-//        drive(FORWARD_SPEED, 2.0);
-//
-//        // Move right to align with second sample
-//        strafe(STRAFE_SPEED, 1.0);
-//
-//        // Move back to bring second sample to observation zone
-//        drive(-FORWARD_SPEED, 2.0);
-//
-//        // Move forward past third sample
-//        drive(FORWARD_SPEED, 2.0);
-//
-//        // Move right to align with third sample
-//        strafe(STRAFE_SPEED, 1.0);
-//
-//        // Move back to bring third sample to observation zone
-//        drive(-FORWARD_SPEED, 2.0);
+        // Example usage of the turn method
+        turn(90, TURN_SPEED);  // Turn 90 degrees clockwise
+        turn(-90, TURN_SPEED); // Turn 90 degrees counterclockwise
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -114,7 +97,38 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         stopMotors();
     }
 
+    /**
+     * Turns the robot by a specified angle.
+     *
+     * @param angleDegrees The angle to turn in degrees. Positive values turn clockwise, negative values turn counterclockwise.
+     * @param speed        The speed at which to turn (0.0 to 1.0).
+     */
+    public void turn(double angleDegrees, double speed) {
+        // Calculate the time required to turn based on the angle and speed
+        double degreesPerSecond = 90; // Adjust this value based on your robot's turning speed
+        double turnTime = Math.abs(angleDegrees) / degreesPerSecond;
 
+        // Set motor powers for turning
+        if (angleDegrees > 0) {
+            // Clockwise turn
+            frontLeftMotor.setPower(speed);
+            backLeftMotor.setPower(speed);
+            frontRightMotor.setPower(-speed);
+            backRightMotor.setPower(-speed);
+        } else {
+            // Counterclockwise turn
+            frontLeftMotor.setPower(-speed);
+            backLeftMotor.setPower(-speed);
+            frontRightMotor.setPower(speed);
+            backRightMotor.setPower(speed);
+        }
+
+        // Wait for the turn to complete
+        sleep((long) (turnTime * 1000));
+
+        // Stop motors after turning
+        stopMotors();
+    }
 
     private void stopMotors() {
         frontLeftMotor.setPower(0);
