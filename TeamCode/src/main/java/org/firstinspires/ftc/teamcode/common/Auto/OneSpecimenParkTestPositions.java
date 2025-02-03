@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 
 
 @Autonomous
-public class TESTTimeBasedPositions extends LinearOpMode {
+public class OneSpecimenParkTestPositions extends LinearOpMode {
 
     @Override
     public void runOpMode() {
