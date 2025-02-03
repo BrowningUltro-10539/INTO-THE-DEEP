@@ -18,6 +18,7 @@ public class IntakeSubsystem{
     public static double ROTATE_DOWN = 0.275;
     public static double ROTATE_ENTER = 0.55; // position to enter submersible
     public static double ROTATE_UP = 1; // yellow button, pivots the claw upward.
+    public static double rotate_state = 0.55;
 
 
     private double voltage;
@@ -35,7 +36,15 @@ public class IntakeSubsystem{
     public void setClaw(double pos){
         clawServo.setPosition(pos);
     }
-    public void setRotate(double pos){rotate.setPosition(pos);}
+    public void setRotate(double pos){
+        rotate.setPosition(pos);
+    }
+
+    public void setRotateQuick(){
+        rotate_state = rotate_state == ROTATE_ENTER ? ROTATE_DOWN : ROTATE_UP;
+        rotate.setPosition(rotate_state);
+    }
+
     public void read(){}
     public void write(){}
     public void loop(){}
