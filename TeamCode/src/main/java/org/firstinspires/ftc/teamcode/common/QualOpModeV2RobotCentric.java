@@ -39,7 +39,7 @@ public class QualOpModeV2RobotCentric extends LinearOpMode {
         robot.reset();
         robot.read();
         robot.intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
-        robot.intake.setClaw();
+        robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN);
         robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
 
         if (isStopRequested()) return;

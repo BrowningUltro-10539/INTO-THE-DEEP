@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 
 @Autonomous
 public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
@@ -19,8 +21,9 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
     @Override
     public void runOpMode() {
         ElapsedTime runtime = new ElapsedTime();
-        Robot robot = new Robot(hardwareMap, false);
+        Robot robot = new Robot(hardwareMap, true);
         robot.reset();
+        robot.outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
         frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
         backLeftMotor = hardwareMap.dcMotor.get("backLeft");
         frontRightMotor = hardwareMap.dcMotor.get("frontRight");
@@ -32,30 +35,40 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         // Reverse right motors to correct movement direction
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        telemetry.addData("Status", "Ready to run");
-        telemetry.update();
+//
+//        telemetry.addData("Status", "Ready to run");
+//        telemetry.update();
 
         waitForStart();
 
         // Move forward
         runtime.reset();
-        drive(FORWARD_SPEED, 1.0);
-        sleep(1000);
+        robot.intake.setRotate(IntakeSubsystem.ROTATE_ENTER);
+        robot.outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
+        robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT);
+        robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
+        drive(FORWARD_SPEED, 0.9);
+        sleep(500);
+        robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT);
+        sleep(1);
+        robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN);
+        sleep(500);
         // Move back slightly
         drive(-FORWARD_SPEED, 0.3);
-        sleep(1000);
+        sleep(500);
 //        // Move right slightly
-        strafe(STRAFE_SPEED, 1.0);
-//
-//        // Move forward past sample
-//        drive(FORWARD_SPEED, 1.0);
-//
-//        // Move right slightly to align with sample
-//        strafe(STRAFE_SPEED, 0.5);
-//
-//        // Move back to bring to observation zone
-//        drive(-FORWARD_SPEED, 2.0);
+        strafe(STRAFE_SPEED, 1.5);
+        sleep(500);
+        // Move forward past sample
+        drive(FORWARD_SPEED, 0.75);
+        sleep(500);
+        // Move right slightly to align with sample
+        strafe(STRAFE_SPEED, 0.75);
+        sleep(500);
+        // Move back to bring to observation zone
+        drive(-FORWARD_SPEED, 1.45);
+        robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_SPECIMEN);
+        robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN);
 //
 //        // Move forward past second sample
 //        drive(FORWARD_SPEED, 2.0);
