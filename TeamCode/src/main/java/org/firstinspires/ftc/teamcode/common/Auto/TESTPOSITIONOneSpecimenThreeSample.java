@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Robot;
+
 @Autonomous
 public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
 
@@ -17,14 +19,15 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
     @Override
     public void runOpMode() {
         ElapsedTime runtime = new ElapsedTime();
-
+        Robot robot = new Robot(hardwareMap, false);
+        robot.reset();
         frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
         backLeftMotor = hardwareMap.dcMotor.get("backLeft");
         frontRightMotor = hardwareMap.dcMotor.get("frontRight");
         backRightMotor = hardwareMap.dcMotor.get("backRight");
 
-        final double FORWARD_SPEED = 0.6;
-        final double STRAFE_SPEED  = 0.5;
+        final double FORWARD_SPEED = 0.4;
+        final double STRAFE_SPEED  = 0.4;
 
         // Reverse right motors to correct movement direction
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -37,40 +40,40 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
 
         // Move forward
         runtime.reset();
-        drive(FORWARD_SPEED, 3.0);
-
+        drive(FORWARD_SPEED, 1.0);
+        sleep(1000);
         // Move back slightly
-        drive(-FORWARD_SPEED, 1.0);
-
-        // Move right slightly
+        drive(-FORWARD_SPEED, 0.3);
+        sleep(1000);
+//        // Move right slightly
         strafe(STRAFE_SPEED, 1.0);
-
-        // Move forward past sample
-        drive(FORWARD_SPEED, 2.0);
-
-        // Move right slightly to align with sample
-        strafe(STRAFE_SPEED, 1.0);
-
-        // Move back to bring to observation zone
-        drive(-FORWARD_SPEED, 2.0);
-
-        // Move forward past second sample
-        drive(FORWARD_SPEED, 2.0);
-
-        // Move right to align with second sample
-        strafe(STRAFE_SPEED, 1.0);
-
-        // Move back to bring second sample to observation zone
-        drive(-FORWARD_SPEED, 2.0);
-
-        // Move forward past third sample
-        drive(FORWARD_SPEED, 2.0);
-
-        // Move right to align with third sample
-        strafe(STRAFE_SPEED, 1.0);
-
-        // Move back to bring third sample to observation zone
-        drive(-FORWARD_SPEED, 2.0);
+//
+//        // Move forward past sample
+//        drive(FORWARD_SPEED, 1.0);
+//
+//        // Move right slightly to align with sample
+//        strafe(STRAFE_SPEED, 0.5);
+//
+//        // Move back to bring to observation zone
+//        drive(-FORWARD_SPEED, 2.0);
+//
+//        // Move forward past second sample
+//        drive(FORWARD_SPEED, 2.0);
+//
+//        // Move right to align with second sample
+//        strafe(STRAFE_SPEED, 1.0);
+//
+//        // Move back to bring second sample to observation zone
+//        drive(-FORWARD_SPEED, 2.0);
+//
+//        // Move forward past third sample
+//        drive(FORWARD_SPEED, 2.0);
+//
+//        // Move right to align with third sample
+//        strafe(STRAFE_SPEED, 1.0);
+//
+//        // Move back to bring third sample to observation zone
+//        drive(-FORWARD_SPEED, 2.0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

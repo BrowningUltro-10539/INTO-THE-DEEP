@@ -68,7 +68,8 @@ public class Robot {
 
     public void write(){
         intake.write();
-        v_lift.write(); h_lift.write();
+        v_lift.write();
+        h_lift.write();
         if(isAuto){
             //driveSubsystem.update();
         }
@@ -80,13 +81,11 @@ public class Robot {
     }
 
     public void reset(){
-//        h_lift.horizontalLift.
-//        v_lift.lift2.resetEncoder();
-//        h_lift.horizontalLift.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-//        v_lift.lift1.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-//        v_lift.lift2.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-//        intake.setRotate(IntakeSubsystem.ROTATE_INTAKE);
-//        intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
+        intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
+        intake.setClaw(IntakeSubsystem.CLAW_OPEN);
+        outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
+        outtake.setRotate(OuttakeSubsystem.ROTATE_INIT);
+        outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_SPECIMEN);
     }
 
     public List<LynxModule> getControllers(){

@@ -17,7 +17,7 @@ public class OuttakeSubsystem extends SubsystemBase {
 
     public static double ROTATE_SPECIMEN_PICKUP = 0.2; // dpad up (outtake claw faces wall to grab specimen hanging on the wall)
     public static double ROTATE_SPECIMEN_SCORE = 0.7; // outtake claw faces
-
+    public static double ROTATE_INIT = 1; // starting outtake pivot.
     public OuttakeSubsystem(HardwareMap hardwareMap, boolean isAuto){
         leftArm = hardwareMap.get(ServoImplEx.class, "leftArm");
         rightArm = hardwareMap.get(ServoImplEx.class, "rightArm");
