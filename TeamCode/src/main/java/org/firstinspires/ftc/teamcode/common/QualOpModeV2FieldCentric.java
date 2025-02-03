@@ -45,14 +45,15 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
+        imu.resetYaw();
 
         waitForStart();
         // init position for intake claw pivot and claw open respectively
         robot.reset();
         robot.read();
-        robot.intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
-        robot.intake.setClaw();
-        robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
+//        robot.intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
+//        robot.intake.setClaw();
+//        robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
 
         if (isStopRequested()) return;
 
@@ -65,7 +66,7 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
                 imu.resetYaw();
             }
 
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + Math.PI / 2;
 
             double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
             double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
