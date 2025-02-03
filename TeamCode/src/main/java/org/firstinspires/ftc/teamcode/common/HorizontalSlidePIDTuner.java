@@ -47,8 +47,8 @@ public class HorizontalSlidePIDTuner extends OpMode {
         for(LynxModule module : controllers){
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
-        left = hardwareMap.get(ServoImplEx.class, "leftTest");
-        right = hardwareMap.get(ServoImplEx.class, "rightTest");
+//        left = hardwareMap.get(ServoImplEx.class, "leftTest");
+//        right = hardwareMap.get(ServoImplEx.class, "rightTest");
     }
     @Override
     public void loop(){
