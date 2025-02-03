@@ -43,21 +43,24 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
 
         // Move forward
         runtime.reset();
+        strafe(-STRAFE_SPEED, 0.375);
         robot.intake.setRotate(IntakeSubsystem.ROTATE_ENTER);
         robot.outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT);
         robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
-        drive(FORWARD_SPEED, 0.9);
-        sleep(500);
+        drive(FORWARD_SPEED, 0.95);
+        sleep(750);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT);
-        sleep(1);
+        sleep(1200);
         robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN);
+        sleep(100);
+        drive(FORWARD_SPEED, 0.35);
         sleep(500);
         // Move back slightly
         drive(-FORWARD_SPEED, 0.3);
         sleep(500);
 //        // Move right slightly
-        strafe(STRAFE_SPEED, 1.5);
+        strafe(STRAFE_SPEED, 1.8);
         sleep(500);
         // Move forward past sample
         drive(FORWARD_SPEED, 0.75);
@@ -66,9 +69,9 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         strafe(STRAFE_SPEED, 0.75);
         sleep(500);
         // Move back to bring to observation zone
-        drive(-FORWARD_SPEED, 1.45);
+        drive(-FORWARD_SPEED, 1.3);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_SPECIMEN);
-        robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN);
+
 //
 //        // Move forward past second sample
 //        drive(FORWARD_SPEED, 2.0);
@@ -110,6 +113,8 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         sleep((long) (time * 1000));
         stopMotors();
     }
+
+
 
     private void stopMotors() {
         frontLeftMotor.setPower(0);
