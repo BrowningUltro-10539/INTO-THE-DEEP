@@ -64,7 +64,7 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         drive(FORWARD_SPEED, 0.8);
         sleep(500);
         // Move right slightly to align with sample
-        strafe(STRAFE_SPEED, 0.75);
+        strafe(STRAFE_SPEED, 0.65); //0.65 before
         sleep(500);
         // Move back to bring to observation zone
         drive(-FORWARD_SPEED, 1.3);
