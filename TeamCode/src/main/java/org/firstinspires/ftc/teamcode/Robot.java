@@ -83,7 +83,7 @@ public class Robot {
     public void reset(){
         intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
         intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
-        outtake.setClaw(OuttakeSubsystem.CLAW_OPEN);
+        outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
         outtake.setRotate(OuttakeSubsystem.ROTATE_INIT);
         outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_SPECIMEN);
     }

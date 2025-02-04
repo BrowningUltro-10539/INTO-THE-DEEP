@@ -31,7 +31,7 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
 
         final double FORWARD_SPEED = 0.4;
         final double STRAFE_SPEED = 0.4;
-        final double TURN_SPEED = 0.4; // Speed for turning
+        final double TURN_SPEED = 0.27; // Speed for turning
 
         // Reverse right motors to correct movement direction
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -49,7 +49,7 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         drive(FORWARD_SPEED, 0.95);
         sleep(750);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT);
-        sleep(1500);
+        sleep(2000);
         robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN);
         sleep(300);
         drive(FORWARD_SPEED, 0.35);
@@ -58,7 +58,7 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         drive(-FORWARD_SPEED, 0.3);
         sleep(500);
         // Move right slightly
-        strafe(STRAFE_SPEED, 1.8);
+        strafe(STRAFE_SPEED, 1.6);
         sleep(500);
         // Move forward past sample
         drive(FORWARD_SPEED, 0.75);
@@ -69,10 +69,13 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         // Move back to bring to observation zone
         drive(-FORWARD_SPEED, 1.3);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_SPECIMEN);
+        turn(180, TURN_SPEED);
+        robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
+        sleep(1500);
+        robot.outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
 
         // Example usage of the turn method
-        turn(90, TURN_SPEED);  // Turn 90 degrees clockwise
-        turn(-90, TURN_SPEED); // Turn 90 degrees counterclockwise
+     // Turn 90 degrees counterclockwise
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
