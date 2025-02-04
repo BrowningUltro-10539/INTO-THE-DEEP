@@ -41,7 +41,7 @@ public class HorizontalSlidePIDTuner extends OpMode {
     @Override
     public void init(){
         liftController = new PIDController(slideP, slideI, slideD);
-        liftMotorOne = hardwareMap.get(DcMotorEx.class, "horizontalLift");
+        liftMotorOne = hardwareMap.get(DcMotorEx.class, "horizontalMotor");
         liftMotorOne.setDirection(DcMotorSimple.Direction.REVERSE); // !!!!
         controllers = hardwareMap.getAll(LynxModule.class);
         for(LynxModule module : controllers){
