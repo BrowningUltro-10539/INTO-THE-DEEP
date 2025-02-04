@@ -28,11 +28,13 @@ public class HorizontalSlidePIDTuner extends OpMode {
     private Robot robot;
 
 
+    //-3 : 15, P = 0.26, transfer at 4
+
     public static double slideP = 0;
     public static double slideI = 0;
     public static double slideD = 0;
     public static double slideKg = 0;
-    public static double SLIDE_TICKS_PER_INCH = 2 * Math.PI * 0.764445002 / 145.1;
+    public static double SLIDE_TICKS_PER_INCH = 2 * Math.PI * 0.764445002 / 537.7;
     public static double targetPosition = 0;
     public List<LynxModule> controllers;
 

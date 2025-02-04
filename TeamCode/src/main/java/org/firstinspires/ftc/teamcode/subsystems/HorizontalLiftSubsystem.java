@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class HorizontalLiftSubsystem extends SubsystemBase {
+
+    //-3 : 15, P = 0.26, transfer at 4
     public final MotorEx horizontalLift;
     private final PIDController controller;
     private MotionProfile profile;
@@ -18,13 +20,13 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
 //    private final VoltageSensor voltageSensor;
 
 
-    public static double P = 0.3, I = 0.0, D = 0.0;
+    public static double P = 0.26, I = 0.0, D = 0.0;
     private double voltage;
 //    private final ElapsedTime timer, voltageTimer;
     private double liftPosition, targetLiftPosition;
 
     public double liftPower;
-    private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 145.1;
+    private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 537.7;
     private boolean isAuto = false;
 
     public HorizontalLiftSubsystem(HardwareMap hardwareMap, boolean isAuto){
