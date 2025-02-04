@@ -45,7 +45,6 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
-        imu.resetYaw();
 
         waitForStart();
         // init position for intake claw pivot and claw open respectively

@@ -31,7 +31,7 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
 
         final double FORWARD_SPEED = 0.4;
         final double STRAFE_SPEED = 0.4;
-        final double TURN_SPEED = 0.27; // Speed for turning
+        final double TURN_SPEED = 0.255; // Speed for turning
 
         // Reverse right motors to correct movement direction
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -49,19 +49,19 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         drive(FORWARD_SPEED, 0.95);
         sleep(750);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT);
-        sleep(2000);
+        sleep(1500); // before it was at 2000
         robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN);
-        sleep(300);
+        sleep(150);
         drive(FORWARD_SPEED, 0.35);
         sleep(500);
         // Move back slightly
         drive(-FORWARD_SPEED, 0.3);
         sleep(500);
         // Move right slightly
-        strafe(STRAFE_SPEED, 1.6);
+        strafe(STRAFE_SPEED, 1.7);
         sleep(500);
         // Move forward past sample
-        drive(FORWARD_SPEED, 0.75);
+        drive(FORWARD_SPEED, 0.8);
         sleep(500);
         // Move right slightly to align with sample
         strafe(STRAFE_SPEED, 0.75);
