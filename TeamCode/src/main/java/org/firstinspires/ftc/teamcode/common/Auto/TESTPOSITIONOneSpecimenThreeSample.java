@@ -49,16 +49,16 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         drive(FORWARD_SPEED, 0.95);
         sleep(750);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT);
-        sleep(1500); // before it was at 2000
+        sleep(1250); // before it was at 1500
         robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN);
         sleep(150);
-        drive(FORWARD_SPEED, 0.35);
+        drive(FORWARD_SPEED, 0.25); // 0.35 before
         sleep(500);
         // Move back slightly
         drive(-FORWARD_SPEED, 0.3);
         sleep(500);
         // Move right slightly
-        strafe(STRAFE_SPEED, 1.7);
+        strafe(STRAFE_SPEED, 1.5); // 1.7 before
         sleep(500);
         // Move forward past sample
         drive(FORWARD_SPEED, 0.8);
