@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -110,13 +111,13 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
                 CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN)));
             }
 
-//            if(gamepad1.dpad_up){
-//                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 20, 2, 100, 100));
-//            }
-//
-//            if(gamepad1.dpad_down){
-//                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, -2, 2, 100, 100));
-//            }
+            if(gamepad1.dpad_up){
+                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 15, 2, 100, 100));
+            }
+
+            if(gamepad1.dpad_down){
+                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, -3, 2, 100, 100));
+            }
 
             // gamepad 2. y = yellow, b = red, a = green, x = blue
 
