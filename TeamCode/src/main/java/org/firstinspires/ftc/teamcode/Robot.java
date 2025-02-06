@@ -40,6 +40,7 @@ public class Robot {
         this.isAuto = isAuto;
         this.hardwareMap = hardwareMap;
         drive = new MecanumDrive(sampleDrive, isAuto);
+        this. sampleDrive = new SampleMecanumDrive(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap, isAuto);
         h_lift = new HorizontalLiftSubsystem(hardwareMap, isAuto);
         v_lift = new VerticalLiftSubsystem(hardwareMap, isAuto);
