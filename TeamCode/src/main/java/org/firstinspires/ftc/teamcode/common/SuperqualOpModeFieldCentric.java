@@ -51,7 +51,7 @@ public class SuperqualOpModeFieldCentric extends LinearOpMode {
         robot.reset();
         robot.read();
         robot.intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
-        robot.intake.setClaw();
+        robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN);
         robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
 
         if (isStopRequested()) return;
@@ -98,7 +98,7 @@ public class SuperqualOpModeFieldCentric extends LinearOpMode {
             }
 
             if(gamepad1.x){
-                CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.intake.setClaw()));
+                CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_CLOSE)));
                 CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.intake.setRotateQuick()));
             }
 

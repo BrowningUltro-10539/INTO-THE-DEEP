@@ -43,9 +43,9 @@ public class Robot {
         intake = new IntakeSubsystem(hardwareMap, isAuto);
         h_lift = new HorizontalLiftSubsystem(hardwareMap, isAuto);
         v_lift = new VerticalLiftSubsystem(hardwareMap, isAuto);
-        if(isAuto){
-//            lift.rightArm.encoder.reset();
-        }
+//        if(isAuto){
+////            lift.rightArm.encoder.reset();
+//        }
         outtake = new OuttakeSubsystem(hardwareMap, isAuto);
         controllers = hardwareMap.getAll(LynxModule.class);
     }
@@ -67,9 +67,9 @@ public class Robot {
         intake.write();
         v_lift.write();
         h_lift.write();
-        if(isAuto){
-            //driveSubsystem.update();
-        }
+        outtake.write();
+        //careful here
+//        drive.update();
     }
 
     public void loop(){
