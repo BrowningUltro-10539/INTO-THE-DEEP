@@ -21,73 +21,73 @@ public class mainRightAuto extends LinearOpMode {
         
         //start
         Pose2d startPose = new Pose2d(10, -60, Math.PI/2);
-        robot.sampleDrive.setPoseEstimate(startPose);
+        robot.drive.setPoseEstimate(startPose);
         robot.reset();
 
         //to depo
-        TrajectorySequence toDepo = robot.sampleDrive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence toDepo = robot.drive.trajectorySequenceBuilder(startPose)
                 .lineTo(new Vector2d(0, -32))
                 .build();
 
         //to park
-        TrajectorySequence toSamplePush1 = robot.sampleDrive.trajectorySequenceBuilder(toDepo.end())
+        TrajectorySequence toSamplePush1 = robot.drive.trajectorySequenceBuilder(toDepo.end())
                 .splineToConstantHeading(new Vector2d(46.7, -9.2), 0)
                 .build();
 
-        TrajectorySequence toObservationSample1 = robot.sampleDrive.trajectorySequenceBuilder(toSamplePush1.end())
+        TrajectorySequence toObservationSample1 = robot.drive.trajectorySequenceBuilder(toSamplePush1.end())
                 .forward(-50)
                 .build();
 
-        TrajectorySequence toSamplePush2 = robot.sampleDrive.trajectorySequenceBuilder(toObservationSample1.end())
+        TrajectorySequence toSamplePush2 = robot.drive.trajectorySequenceBuilder(toObservationSample1.end())
                 .forward(40)
                 .splineToConstantHeading(new Vector2d(56.7, -9.2), 0)
                 .build();
 
-        TrajectorySequence toObservationSample2 = robot.sampleDrive.trajectorySequenceBuilder(toSamplePush2.end())
+        TrajectorySequence toObservationSample2 = robot.drive.trajectorySequenceBuilder(toSamplePush2.end())
                 .forward(-50)
                 .build();
 
-        TrajectorySequence toSamplePush3 = robot.sampleDrive.trajectorySequenceBuilder(toObservationSample2.end())
+        TrajectorySequence toSamplePush3 = robot.drive.trajectorySequenceBuilder(toObservationSample2.end())
                 .forward(40)
                 .splineToConstantHeading(new Vector2d(61.7, -9.2), 0)
                 .build();
 
-        TrajectorySequence toObservationSample3 = robot.sampleDrive.trajectorySequenceBuilder(toSamplePush3.end())
+        TrajectorySequence toObservationSample3 = robot.drive.trajectorySequenceBuilder(toSamplePush3.end())
                 .forward(-45)
                 .strafeLeft(15)
                 .build();
 
-        TrajectorySequence turnToPickup = robot.sampleDrive.trajectorySequenceBuilder(toObservationSample3.end())
+        TrajectorySequence turnToPickup = robot.drive.trajectorySequenceBuilder(toObservationSample3.end())
                 .turn(Math.PI)
                 .build();
 
-        TrajectorySequence turnAndDepo1 = robot.sampleDrive.trajectorySequenceBuilder(turnToPickup.end())
+        TrajectorySequence turnAndDepo1 = robot.drive.trajectorySequenceBuilder(turnToPickup.end())
                 .turn(-Math.PI)
                 .lineTo(new Vector2d(0, -32))
                 .build();
 
 
-        TrajectorySequence toPickupAndTurn1 = robot.sampleDrive.trajectorySequenceBuilder(turnAndDepo1.end())
+        TrajectorySequence toPickupAndTurn1 = robot.drive.trajectorySequenceBuilder(turnAndDepo1.end())
                 .lineTo(new Vector2d(46.7, -54.2))
                 .turn(Math.PI)
                 .build();
 
-        TrajectorySequence turnAndDepo2 = robot.sampleDrive.trajectorySequenceBuilder(toPickupAndTurn1.end())
+        TrajectorySequence turnAndDepo2 = robot.drive.trajectorySequenceBuilder(toPickupAndTurn1.end())
                 .turn(-Math.PI)
                 .lineTo(new Vector2d(0, -32))
                 .build();
 
-        TrajectorySequence toPickupAndTurn2 = robot.sampleDrive.trajectorySequenceBuilder(turnAndDepo2.end())
+        TrajectorySequence toPickupAndTurn2 = robot.drive.trajectorySequenceBuilder(turnAndDepo2.end())
                 .lineTo(new Vector2d(46.7, -54.2))
                 .turn(Math.PI)
                 .build();
 
-        TrajectorySequence turnAndDepo3 = robot.sampleDrive.trajectorySequenceBuilder(toPickupAndTurn2.end())
+        TrajectorySequence turnAndDepo3 = robot.drive.trajectorySequenceBuilder(toPickupAndTurn2.end())
                 .turn(-Math.PI)
                 .lineTo(new Vector2d(0, -32))
                 .build();
 
-        TrajectorySequence toPickupAndTurn3 = robot.sampleDrive.trajectorySequenceBuilder(turnAndDepo3.end())
+        TrajectorySequence toPickupAndTurn3 = robot.drive.trajectorySequenceBuilder(turnAndDepo3.end())
                 .lineTo(new Vector2d(46.7, -54.2))
                 .turn(Math.PI)
                 .build();
@@ -108,34 +108,34 @@ public class mainRightAuto extends LinearOpMode {
             while (opModeIsActive()) {
                 robot.read();
                 //depo1
-                robot.sampleDrive.followTrajectorySequence(toDepo);
+                robot.drive.followTrajectorySequence(toDepo);
                 sleep(500);
                 //push samples
                 robot.drive.followTrajectorySequence(toSamplePush1);
-                robot.sampleDrive.followTrajectorySequence(toObservationSample1);
-                robot.sampleDrive.followTrajectorySequence(toSamplePush2);
-                robot.sampleDrive.followTrajectorySequence(toObservationSample2);
-                robot.sampleDrive.followTrajectorySequence(toSamplePush3);
-                robot.sampleDrive.followTrajectorySequence(toObservationSample3);
-                robot.sampleDrive.followTrajectorySequence(turnToPickup);
+                robot.drive.followTrajectorySequence(toObservationSample1);
+                robot.drive.followTrajectorySequence(toSamplePush2);
+                robot.drive.followTrajectorySequence(toObservationSample2);
+                robot.drive.followTrajectorySequence(toSamplePush3);
+                robot.drive.followTrajectorySequence(toObservationSample3);
+                robot.drive.followTrajectorySequence(turnToPickup);
                 //depo 2
-                robot.sampleDrive.followTrajectorySequence(turnAndDepo1);
-                robot.sampleDrive.followTrajectorySequence(toPickupAndTurn1);
+                robot.drive.followTrajectorySequence(turnAndDepo1);
+                robot.drive.followTrajectorySequence(toPickupAndTurn1);
                 //depo 3
-                robot.sampleDrive.followTrajectorySequence(turnAndDepo2);
-                robot.sampleDrive.followTrajectorySequence(toPickupAndTurn2);
+                robot.drive.followTrajectorySequence(turnAndDepo2);
+                robot.drive.followTrajectorySequence(toPickupAndTurn2);
                 //depo 4
-                robot.sampleDrive.followTrajectorySequence(turnAndDepo3);
-                robot.sampleDrive.followTrajectorySequence(toPickupAndTurn3);
+                robot.drive.followTrajectorySequence(turnAndDepo3);
+                robot.drive.followTrajectorySequence(toPickupAndTurn3);
 
 
                 CommandScheduler.getInstance().run();
 
 
                 robot.write();
-                robot.sampleDrive.update();
+                robot.drive.update();
 
-                telemetry.addData("Robot Pose: ", robot.sampleDrive.getLocalizer().getPoseEstimate());
+                telemetry.addData("Robot Pose: ", robot.drive.getLocalizer().getPoseEstimate());
                 telemetry.update();
 
                 for (LynxModule module : robot.getControllers()) {
