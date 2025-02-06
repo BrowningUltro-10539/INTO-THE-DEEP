@@ -19,16 +19,13 @@ import java.util.List;
 
 public class Robot {
 
-    public MecanumDrive drive;
+    public SampleMecanumDrive drive; // Use SampleMecanumDrive directly
     public HangerSubsystem test;
-    public SampleMecanumDrive sampleDrive;
 
     public IntakeSubsystem intake;
     public OuttakeSubsystem outtake;
     public HorizontalLiftSubsystem h_lift;
     public VerticalLiftSubsystem v_lift;
-
-//    public HangerSubsystem hanger;
 
     public HardwareMap hardwareMap;
 
@@ -36,49 +33,45 @@ public class Robot {
     public Pose2d robotPose;
     private List<LynxModule> controllers;
 
-    public Robot(HardwareMap hardwareMap, boolean isAuto){
+    public Robot(HardwareMap hardwareMap, boolean isAuto) {
         this.isAuto = isAuto;
         this.hardwareMap = hardwareMap;
-        drive = new MecanumDrive(sampleDrive, isAuto);
-        this. sampleDrive = new SampleMecanumDrive(hardwareMap);
+
+        // Initialize SampleMecanumDrive (RoadRunner drive)
+        drive = new SampleMecanumDrive(hardwareMap);
+
+        // Initialize other subsystems
         intake = new IntakeSubsystem(hardwareMap, isAuto);
         h_lift = new HorizontalLiftSubsystem(hardwareMap, isAuto);
         v_lift = new VerticalLiftSubsystem(hardwareMap, isAuto);
-//        if(isAuto){
-////            lift.rightArm.encoder.reset();
-//        }
         outtake = new OuttakeSubsystem(hardwareMap, isAuto);
+
         controllers = hardwareMap.getAll(LynxModule.class);
     }
 
-    public Robot(HardwareMap hardwareMap){
+    public Robot(HardwareMap hardwareMap) {
         this(hardwareMap, false);
     }
 
-    public void read(){
+    public void read() {
         intake.read();
         h_lift.read();
         v_lift.read();
-        if(isAuto){
-            //driveSubsystem.getPoseEstimate();
-        }
     }
 
-    public void write(){
+    public void write() {
         intake.write();
         v_lift.write();
         h_lift.write();
         outtake.write();
-        //careful here
-//        drive.update();
     }
 
-    public void loop(){
+    public void loop() {
         h_lift.loop();
         v_lift.loop();
     }
 
-    public void reset(){
+    public void reset() {
         intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
         intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
         outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
@@ -86,13 +79,11 @@ public class Robot {
         outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_SPECIMEN);
     }
 
-    public List<LynxModule> getControllers(){
+    public List<LynxModule> getControllers() {
         return controllers;
     }
 
-    public Pose2d getPose(){
+    public Pose2d getPose() {
         return robotPose;
     }
-
-
 }
