@@ -40,6 +40,7 @@ public class RedRightAuto extends LinearOpMode {
                 .splineTo(new Vector2d(50, -60), Math.toRadians(135))
                 .build();
 
+
         telemetry.setMsTransmissionInterval(50);
 
         while(!isStarted() && !isStopRequested()){
