@@ -111,13 +111,13 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
                 CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN)));
             }
 
-            if(gamepad1.dpad_up){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 15, 2, 100, 100));
-            }
-
-            if(gamepad1.dpad_down){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, -3, 2, 100, 100));
-            }
+//            if(gamepad1.dpad_up){
+//                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 15, 2, 100, 100));
+//            }
+//
+//            if(gamepad1.dpad_down){
+//                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, -3, 2, 100, 100));
+//            }
 
             // gamepad 2. y = yellow, b = red, a = green, x = blue
 

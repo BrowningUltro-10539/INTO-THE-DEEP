@@ -12,8 +12,8 @@ public class IntakeSubsystem{
     public Servo clawServo, rotate;
     // private final VoltageSensor voltageSensor;
 
-    public static double CLAW_OPEN = 0.5;
-    public static double CLAW_CLOSE = 0.1, claw_pos = 0.5;
+    public static double CLAW_OPEN = 0.75;
+    public static double CLAW_CLOSE = 0.35, claw_pos = 0.5;
 
     public static double ROTATE_DOWN = 0.275;
     public static double ROTATE_ENTER = 0.55; // position to enter submersible
@@ -28,10 +28,7 @@ public class IntakeSubsystem{
         rotate = hardwareMap.get(Servo.class, "rotate");
     }
 
-    public void setClaw(){
-        claw_pos = claw_pos == CLAW_OPEN ? CLAW_CLOSE : CLAW_OPEN;
-        clawServo.setPosition(claw_pos);
-    }
+
 
     public void setClaw(double pos){
         clawServo.setPosition(pos);
