@@ -23,7 +23,7 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         ElapsedTime runtime = new ElapsedTime();
         Robot robot = new Robot(hardwareMap, true);
         robot.reset();
-        robot.outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
+        robot.outtake.setClaw(0.45);
         frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
         backLeftMotor = hardwareMap.dcMotor.get("backLeft");
         frontRightMotor = hardwareMap.dcMotor.get("frontRight");
@@ -43,7 +43,7 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         runtime.reset();
         strafe(-STRAFE_SPEED, 0.375);
         robot.intake.setRotate(IntakeSubsystem.ROTATE_ENTER);
-        robot.outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
+        robot.outtake.setClaw(0.45);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT);
         robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
         drive(FORWARD_SPEED, 0.95);
