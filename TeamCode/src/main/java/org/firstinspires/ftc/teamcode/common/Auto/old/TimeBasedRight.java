@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.Auto;
+package org.firstinspires.ftc.teamcode.common.Auto.old;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;

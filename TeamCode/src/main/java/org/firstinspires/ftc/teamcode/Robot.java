@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.geometry.Pose2d;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -20,7 +19,7 @@ import java.util.List;
 
 public class Robot {
 
-    public MecanumDrive driveSubsystem;
+    public MecanumDrive drive;
     public HangerSubsystem test;
     public SampleMecanumDrive sampleDrive;
 
@@ -28,7 +27,6 @@ public class Robot {
     public OuttakeSubsystem outtake;
     public HorizontalLiftSubsystem h_lift;
     public VerticalLiftSubsystem v_lift;
-    public MecanumDrive drive;
 
 //    public HangerSubsystem hanger;
 
@@ -41,10 +39,9 @@ public class Robot {
     public Robot(HardwareMap hardwareMap, boolean isAuto){
         this.isAuto = isAuto;
         this.hardwareMap = hardwareMap;
-        driveSubsystem = new MecanumDrive(sampleDrive, isAuto);
+        drive = new MecanumDrive(sampleDrive, isAuto);
         intake = new IntakeSubsystem(hardwareMap, isAuto);
         h_lift = new HorizontalLiftSubsystem(hardwareMap, isAuto);
-//        hanger = new HangerSubsystem(hardwareMap, isAuto);
         v_lift = new VerticalLiftSubsystem(hardwareMap, isAuto);
         if(isAuto){
 //            lift.rightArm.encoder.reset();

@@ -2,13 +2,11 @@ package com.example.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-
 import org.rowlandhall.meepmeep.MeepMeep;
 import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
-import org.rowlandhall.meepmeep.roadrunner.SampleMecanumDrive;
 import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class MeepMeepTesting {
+public class AutoRedPlan {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
 
