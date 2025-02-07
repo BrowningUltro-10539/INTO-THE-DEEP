@@ -57,6 +57,7 @@ public class Robot {
         intake.read();
         h_lift.read();
         v_lift.read();
+
     }
 
     public void write() {

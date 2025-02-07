@@ -13,7 +13,7 @@ public class AutoRedPlan {
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(70, 200, Math.toRadians(360), Math.toRadians(360), 15)
-                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-13, -60, Math.PI/2))
+                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(10, -60, Math.PI/2))
                         .lineTo(new Vector2d(0, -32))
                         .waitSeconds(0.5)
                         .lineTo(new Vector2d(27.5, -34.11))

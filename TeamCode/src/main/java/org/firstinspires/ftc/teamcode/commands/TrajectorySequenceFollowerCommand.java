@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.commands;
+package org.firstinspires.ftc.teamcode.commands.Auto;
 
 
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class TrajectorySequenceFollowerCommand extends CommandBase {
 
@@ -16,7 +16,6 @@ public class TrajectorySequenceFollowerCommand extends CommandBase {
         this.drive = drive;
         this.trajectory = trajectory;
 
-        addRequirements(drive);
     }
 
     @Override
@@ -32,7 +31,7 @@ public class TrajectorySequenceFollowerCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
-            drive.setMotorPowers(0, 0, 0, 0);
+            drive.setMotorPowers(0,0,0,0);
         }
     }
 

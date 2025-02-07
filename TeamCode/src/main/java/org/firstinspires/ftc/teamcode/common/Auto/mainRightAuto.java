@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.Auto.TrajectorySequenceFollowerCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Config
@@ -112,24 +113,26 @@ public class mainRightAuto extends LinearOpMode {
             while (opModeIsActive()) {
                 robot.read();
                 //depo1
-                robot.drive.followTrajectorySequence(toDepo);
-                //push samples
-                robot.drive.followTrajectorySequence(toSamplePush1);
-                robot.drive.followTrajectorySequence(toObservationSample1);
-                robot.drive.followTrajectorySequence(toSamplePush2);
-                robot.drive.followTrajectorySequence(toObservationSample2);
-                robot.drive.followTrajectorySequence(toSamplePush3);
-                robot.drive.followTrajectorySequence(toObservationSample3);
-                robot.drive.followTrajectorySequence(turnToPickup);
-                //depo 2
-                robot.drive.followTrajectorySequence(turnAndDepo1);
-                robot.drive.followTrajectorySequence(toPickupAndTurn1);
-                //depo 3
-                robot.drive.followTrajectorySequence(turnAndDepo2);
-                robot.drive.followTrajectorySequence(toPickupAndTurn2);
-                //depo 4
-                robot.drive.followTrajectorySequence(turnAndDepo3);
-                robot.drive.followTrajectorySequence(toPickupAndTurn3);
+
+                CommandScheduler.getInstance().schedule(new TrajectorySequenceFollowerCommand(robot.drive, toDepo));
+//                robot.drive.followTrajectorySequence(toDepo);
+//                //push samples
+//                robot.drive.followTrajectorySequence(toSamplePush1);
+//                robot.drive.followTrajectorySequence(toObservationSample1);
+//                robot.drive.followTrajectorySequence(toSamplePush2);
+//                robot.drive.followTrajectorySequence(toObservationSample2);
+//                robot.drive.followTrajectorySequence(toSamplePush3);
+//                robot.drive.followTrajectorySequence(toObservationSample3);
+//                robot.drive.followTrajectorySequence(turnToPickup);
+//                //depo 2
+//                robot.drive.followTrajectorySequence(turnAndDepo1);
+//                robot.drive.followTrajectorySequence(toPickupAndTurn1);
+//                //depo 3
+//                robot.drive.followTrajectorySequence(turnAndDepo2);
+//                robot.drive.followTrajectorySequence(toPickupAndTurn2);
+//                //depo 4
+//                robot.drive.followTrajectorySequence(turnAndDepo3);
+//                robot.drive.followTrajectorySequence(toPickupAndTurn3);
 
 
                 CommandScheduler.getInstance().run();
