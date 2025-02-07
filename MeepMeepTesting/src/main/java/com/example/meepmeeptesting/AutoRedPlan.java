@@ -8,15 +8,15 @@ import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class AutoRedPlan {
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(800);
+        MeepMeep meepMeep = new MeepMeep(700);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(70, 200, Math.toRadians(360), Math.toRadians(360), 15)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(10, -60, Math.PI/2))
-                        .lineTo(new Vector2d(0, -32))
+                        .lineTo(new Vector2d(0, -30))
                         .waitSeconds(0.5)
-                        .lineTo(new Vector2d(27.5, -34.11))
+                        .lineTo(new Vector2d(27.5, -38.11))
                         .splineToConstantHeading(new Vector2d(46.7, -9.2), 0) // travel slightly above first sample
                         .forward(-50) // first sample
                         .forward(40)

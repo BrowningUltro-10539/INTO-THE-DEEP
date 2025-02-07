@@ -62,7 +62,7 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
 
-            if (gamepad1.left_bumper) {
+            if (gamepad1.options) {
                 imu.resetYaw();
             }
 
@@ -112,11 +112,11 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
             }
 
             if(gamepad1.dpad_up){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 15, 2, 100, 100));
+                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 11, 2, 100, 100));
             }
 
             if(gamepad1.dpad_down){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, -3, 2, 100, 100));
+                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, -2, 2, 100, 100));
             }
 
             // gamepad 2. y = yellow, b = red, a = green, x = blue

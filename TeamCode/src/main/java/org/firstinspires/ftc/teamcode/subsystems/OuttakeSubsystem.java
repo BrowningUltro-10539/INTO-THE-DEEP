@@ -13,7 +13,7 @@ public class OuttakeSubsystem extends SubsystemBase {
 
     public static double ARM_DEPOSIT = 0.85; // arm position when we deposit samples and specimen.
     public static double ARM_PICKUP_SPECIMEN = 0.98; // arm position when we intake specimen.
-    public static double CLAW_OPEN = 0.75, CLAW_CLOSE = 0.5, claw_pos = 0.32;
+    public static double CLAW_OPEN = 0.75, CLAW_CLOSE = 0.55, claw_pos = 0.32;
 
     public static double ROTATE_SPECIMEN_PICKUP = 0.2; // dpad up (outtake claw faces wall to grab specimen hanging on the wall)
     public static double ROTATE_SPECIMEN_SCORE = 0.7; // outtake claw faces

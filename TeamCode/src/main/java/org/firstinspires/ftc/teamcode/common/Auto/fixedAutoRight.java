@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -40,11 +41,11 @@ public class fixedAutoRight extends LinearOpMode {
 
         //space for trajectories
         TrajectorySequence toDepoPreLoad = robot.drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(0, -32))
+                .lineTo(new Vector2d(0, -27))
                 .build();
 
         TrajectorySequence toSamplePush1 = robot.drive.trajectorySequenceBuilder(toDepoPreLoad.end())
-                .lineTo(new Vector2d(27.5, -34.11))
+                .lineTo(new Vector2d(27.5, -38.11))
                 .splineToConstantHeading(new Vector2d(46.7, -9.2), 0)
                 .build();
 
@@ -116,11 +117,15 @@ public class fixedAutoRight extends LinearOpMode {
         }
         //Auto Coded Here (so far prelaod only)
         CommandScheduler.getInstance().schedule(
-                new SequentialCommandGroup(new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_ENTER)),
-                        new ParallelCommandGroup(new TrajectorySequenceFollowerCommand(robot.drive, toDepoPreLoad),
-                                new InstantCommand (() ->robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
-                                new InstantCommand(() ->robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP))
-                        )
+                new SequentialCommandGroup(new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_UP)),
+                        new InstantCommand (() ->robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
+                        new ParallelCommandGroup(
+                                new InstantCommand(() ->robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP)),
+                                new TrajectorySequenceFollowerCommand(robot.drive, toDepoPreLoad)
+                        ),
+                        new WaitCommand(100),
+                        new SequentialCommandGroup(new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)), new WaitCommand(1200), new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT))),
+                        new TrajectorySequenceFollowerCommand(robot.drive, toSamplePush1), new TrajectorySequenceFollowerCommand(robot.drive, toObservationSample1)
                 )
         );
 
