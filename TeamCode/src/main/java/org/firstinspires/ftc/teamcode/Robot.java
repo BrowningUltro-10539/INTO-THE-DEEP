@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.arcrobotics.ftclib.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -46,6 +46,11 @@ public class Robot {
         v_lift = new VerticalLiftSubsystem(hardwareMap, isAuto);
         outtake = new OuttakeSubsystem(hardwareMap, isAuto);
 
+        if(isAuto){
+            v_lift.lift2.encoder.reset();
+            h_lift.horizontalLift.resetEncoder();
+        }
+
         controllers = hardwareMap.getAll(LynxModule.class);
     }
 
@@ -54,9 +59,14 @@ public class Robot {
     }
 
     public void read() {
+        outtake.read();
         intake.read();
         h_lift.read();
         v_lift.read();
+
+        if(isAuto){
+            robotPose = drive.getPoseEstimate();
+        }
 
     }
 
@@ -65,6 +75,9 @@ public class Robot {
         v_lift.write();
         h_lift.write();
         outtake.write();
+        if(isAuto){
+            drive.update();
+        }
     }
 
     public void loop() {
@@ -73,11 +86,8 @@ public class Robot {
     }
 
     public void reset() {
-        intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
-        intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
-        outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
-        outtake.setRotate(OuttakeSubsystem.ROTATE_INIT);
-        outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_SPECIMEN);
+        h_lift.horizontalLift.resetEncoder();
+        v_lift.lift2.resetEncoder();
     }
 
     public List<LynxModule> getControllers() {

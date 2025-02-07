@@ -1,0 +1,152 @@
+package org.firstinspires.ftc.teamcode.common.Auto;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.Auto.TrajectorySequenceFollowerCommand;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+
+public class fixedAutoRight extends LinearOpMode {
+    private Robot robot;
+    private double loopTime;
+
+    private Pose2d startPose = new Pose2d(10, -60, Math.PI/2);
+    @Override
+    public void runOpMode() throws InterruptedException {
+        CommandScheduler.getInstance().reset();
+        robot = new Robot(hardwareMap, true);
+
+
+        robot.drive.setPoseEstimate(startPose);
+
+        robot.intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
+        robot.intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
+        robot.outtake.setRotate(OuttakeSubsystem.ROTATE_INIT);
+        robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_SPECIMEN);
+        sleep(1500);
+        robot.outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE);
+
+
+
+        //space for trajectories
+        TrajectorySequence toDepoPreLoad = robot.drive.trajectorySequenceBuilder(startPose)
+                .lineTo(new Vector2d(0, -32))
+                .build();
+
+        TrajectorySequence toSamplePush1 = robot.drive.trajectorySequenceBuilder(toDepoPreLoad.end())
+                .lineTo(new Vector2d(27.5, -34.11))
+                .splineToConstantHeading(new Vector2d(46.7, -9.2), 0)
+                .build();
+
+        TrajectorySequence toObservationSample1 = robot.drive.trajectorySequenceBuilder(toSamplePush1.end())
+                .forward(-50)
+                .build();
+
+        TrajectorySequence toSamplePush2 = robot.drive.trajectorySequenceBuilder(toObservationSample1.end())
+                .forward(40)
+                .splineToConstantHeading(new Vector2d(56.7, -9.2), 0)
+                .build();
+
+        TrajectorySequence toObservationSample2 = robot.drive.trajectorySequenceBuilder(toSamplePush2.end())
+                .forward(-50)
+                .build();
+
+        TrajectorySequence toSamplePush3 = robot.drive.trajectorySequenceBuilder(toObservationSample2.end())
+                .forward(40)
+                .splineToConstantHeading(new Vector2d(61.7, -9.2), 0)
+                .build();
+
+        TrajectorySequence toObservationSample3 = robot.drive.trajectorySequenceBuilder(toSamplePush3.end())
+                .forward(-45)
+                .strafeLeft(15)
+                .build();
+
+        TrajectorySequence turnToPickup = robot.drive.trajectorySequenceBuilder(toObservationSample3.end())
+                .turn(Math.PI)
+                .build();
+
+        TrajectorySequence turnAndDepo1 = robot.drive.trajectorySequenceBuilder(turnToPickup.end())
+                .turn(-Math.PI)
+                .lineTo(new Vector2d(0, -32))
+                .build();
+
+
+        TrajectorySequence toPickupAndTurn1 = robot.drive.trajectorySequenceBuilder(turnAndDepo1.end())
+                .lineTo(new Vector2d(46.7, -54.2))
+                .turn(Math.PI)
+                .build();
+
+        TrajectorySequence turnAndDepo2 = robot.drive.trajectorySequenceBuilder(toPickupAndTurn1.end())
+                .turn(-Math.PI)
+                .lineTo(new Vector2d(0, -32))
+                .build();
+
+        TrajectorySequence toPickupAndTurn2 = robot.drive.trajectorySequenceBuilder(turnAndDepo2.end())
+                .lineTo(new Vector2d(46.7, -54.2))
+                .turn(Math.PI)
+                .build();
+
+        TrajectorySequence turnAndDepo3 = robot.drive.trajectorySequenceBuilder(toPickupAndTurn2.end())
+                .turn(-Math.PI)
+                .lineTo(new Vector2d(0, -32))
+                .build();
+
+        TrajectorySequence toPickupAndTurn3 = robot.drive.trajectorySequenceBuilder(turnAndDepo3.end())
+                .lineTo(new Vector2d(46.7, -54.2))
+                .turn(Math.PI)
+                .build();
+
+
+
+
+
+        while(!isStarted()){
+            robot.read();
+            robot.write();
+        }
+        //Auto Coded Here (so far prelaod only)
+        CommandScheduler.getInstance().schedule(
+                new SequentialCommandGroup(new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_ENTER)),
+                        new ParallelCommandGroup(new TrajectorySequenceFollowerCommand(robot.drive, toDepoPreLoad),
+                                new InstantCommand (() ->robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
+                                new InstantCommand(() ->robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP))
+                        )
+                )
+        );
+
+        waitForStart();
+
+        robot.reset();
+
+
+        robot.reset();
+
+        while(opModeIsActive()){
+            robot.read();
+
+            CommandScheduler.getInstance().run();
+
+            robot.intake.loop();
+            robot.v_lift.loop();
+            robot.h_lift.loop();
+            robot.outtake.loop();
+
+            robot.write();
+
+            telemetry.addData("Current Pose: ", robot.drive.getLocalizer().getPoseEstimate());
+
+            double loop = System.nanoTime();
+            telemetry.addData("hz ", 1000000000 / (loop - loopTime));
+            loopTime = loop;
+            telemetry.update();
+        }
+    }
+}
