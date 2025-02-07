@@ -44,31 +44,35 @@ public class fixedAutoRight extends LinearOpMode {
                 .lineTo(new Vector2d(0, -27))
                 .build();
 
-        TrajectorySequence toSamplePush1 = robot.drive.trajectorySequenceBuilder(toDepoPreLoad.end())
+        TrajectorySequence toDepoAdjust = robot.drive.trajectorySequenceBuilder(toDepoPreLoad.end())
+                .lineTo(new Vector2d(0, -28))
+                .build();
+
+        TrajectorySequence toSamplePush1 = robot.drive.trajectorySequenceBuilder(toDepoAdjust.end())
                 .lineTo(new Vector2d(27.5, -38.11))
                 .splineToConstantHeading(new Vector2d(46.7, -9.2), 0)
                 .build();
 
         TrajectorySequence toObservationSample1 = robot.drive.trajectorySequenceBuilder(toSamplePush1.end())
-                .forward(-50)
+                .forward(-45)
                 .build();
 
         TrajectorySequence toSamplePush2 = robot.drive.trajectorySequenceBuilder(toObservationSample1.end())
-                .forward(40)
+                .forward(35)
                 .splineToConstantHeading(new Vector2d(56.7, -9.2), 0)
                 .build();
 
         TrajectorySequence toObservationSample2 = robot.drive.trajectorySequenceBuilder(toSamplePush2.end())
-                .forward(-50)
+                .forward(-45)
                 .build();
 
         TrajectorySequence toSamplePush3 = robot.drive.trajectorySequenceBuilder(toObservationSample2.end())
-                .forward(40)
+                .forward(35)
                 .splineToConstantHeading(new Vector2d(61.7, -9.2), 0)
                 .build();
 
         TrajectorySequence toObservationSample3 = robot.drive.trajectorySequenceBuilder(toSamplePush3.end())
-                .forward(-45)
+                .forward(-40)
                 .strafeLeft(15)
                 .build();
 
@@ -124,15 +128,12 @@ public class fixedAutoRight extends LinearOpMode {
                                 new TrajectorySequenceFollowerCommand(robot.drive, toDepoPreLoad)
                         ),
                         new WaitCommand(100),
-                        new SequentialCommandGroup(new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)), new WaitCommand(1200), new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT))),
+                        new SequentialCommandGroup(new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)), new WaitCommand(300), new TrajectorySequenceFollowerCommand(robot.drive, toDepoAdjust), new WaitCommand(500), new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT))),
                         new TrajectorySequenceFollowerCommand(robot.drive, toSamplePush1), new TrajectorySequenceFollowerCommand(robot.drive, toObservationSample1)
                 )
         );
 
         waitForStart();
-
-        robot.reset();
-
 
         robot.reset();
 

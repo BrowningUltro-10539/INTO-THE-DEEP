@@ -62,7 +62,7 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
 
-            if (gamepad1.options) {
+            if (gamepad1.left_bumper) {
                 imu.resetYaw();
             }
 
