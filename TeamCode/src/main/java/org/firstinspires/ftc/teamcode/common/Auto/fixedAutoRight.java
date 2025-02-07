@@ -29,7 +29,6 @@ public class fixedAutoRight extends LinearOpMode {
 
 
         robot.drive.setPoseEstimate(startPose);
-
         robot.intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
         robot.intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
         robot.outtake.setRotate(OuttakeSubsystem.ROTATE_INIT);
@@ -112,9 +111,6 @@ public class fixedAutoRight extends LinearOpMode {
                 .build();
 
 
-
-
-
         while(!isStarted()){
             robot.read();
             robot.write();
@@ -122,7 +118,7 @@ public class fixedAutoRight extends LinearOpMode {
         //Auto Coded Here (so far prelaod only)
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_UP)),
-                        new InstantCommand (() ->robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
+                        new InstantCommand (() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
                         new ParallelCommandGroup(
                                 new InstantCommand(() ->robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP)),
                                 new TrajectorySequenceFollowerCommand(robot.drive, toDepoPreLoad)

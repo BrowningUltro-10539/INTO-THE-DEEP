@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -48,7 +50,7 @@ public class Robot {
 
         if(isAuto){
             v_lift.lift2.encoder.reset();
-            h_lift.horizontalLift.resetEncoder();
+            h_lift.horizontalLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
 
         controllers = hardwareMap.getAll(LynxModule.class);
@@ -86,7 +88,7 @@ public class Robot {
     }
 
     public void reset() {
-        h_lift.horizontalLift.resetEncoder();
+        h_lift.horizontalLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         v_lift.lift2.resetEncoder();
     }
 

@@ -5,7 +5,9 @@ import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -13,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HorizontalLiftSubsystem extends SubsystemBase {
 
 
-    public final MotorEx horizontalLift;
+    public final DcMotorEx horizontalLift;
     private final PIDController controller;
     private MotionProfile profile;
     public MotionState state;
@@ -25,19 +27,19 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
 //    private final ElapsedTime timer, voltageTimer;
     private double liftPosition, targetLiftPosition;
 
-    public double liftPower = -2;
-    private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 537.7;
+    public double liftPower = 0;
+    private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 384.5;
     private boolean isAuto = false;
 
     //-2, all the way back
     //14 full extension
     //4 for transfer when from full extension
     public HorizontalLiftSubsystem(HardwareMap hardwareMap, boolean isAuto){
-        horizontalLift = new MotorEx(hardwareMap, "horizontalMotor");
+        horizontalLift = hardwareMap.get(DcMotorEx.class, "horizontalMotor");
+//        horizontalLift.encoder.setDirection(Motor.Direction.REVERSE);
         controller = new PIDController(P, I, D);
         controller.setPID(P, I, D);
         this.isAuto = isAuto;
-
         // values are not final
     }
     public void loop(){
@@ -56,11 +58,11 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     }
 
     public void read(){
-        liftPosition = horizontalLift.encoder.getPosition() * SLIDE_TICK;
+        liftPosition = horizontalLift.getCurrentPosition() * SLIDE_TICK;
     }
 
     public void write(){
-        horizontalLift.set(-liftPower);
+        horizontalLift.setPower(-liftPower);
     }
 
     public void setTargetLiftPosition(double v){targetLiftPosition = v;}
