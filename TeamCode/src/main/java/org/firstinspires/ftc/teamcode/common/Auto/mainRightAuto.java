@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.Auto;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -10,9 +11,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
+@Config
 @Autonomous
 public class mainRightAuto extends LinearOpMode {
     private Robot robot;
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -109,7 +113,6 @@ public class mainRightAuto extends LinearOpMode {
                 robot.read();
                 //depo1
                 robot.drive.followTrajectorySequence(toDepo);
-                sleep(500);
                 //push samples
                 robot.drive.followTrajectorySequence(toSamplePush1);
                 robot.drive.followTrajectorySequence(toObservationSample1);

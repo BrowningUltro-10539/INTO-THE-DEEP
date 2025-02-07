@@ -46,7 +46,7 @@ public class TESTPOSITIONOneSpecimenThreeSample extends LinearOpMode {
         robot.outtake.setClaw(0.45);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT);
         robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
-        drive(FORWARD_SPEED, 0.95);
+        drive(FORWARD_SPEED, 1.2);
         sleep(750);
         robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT);
         sleep(1250); // before it was at 1500
