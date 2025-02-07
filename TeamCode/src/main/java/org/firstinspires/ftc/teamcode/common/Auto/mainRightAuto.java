@@ -101,14 +101,13 @@ public class mainRightAuto extends LinearOpMode {
 
         telemetry.setMsTransmissionInterval(50);
 
-        while(!isStarted() && !isStopRequested()){
+        while(!isStarted() && !isStopRequested()) {
             robot.reset();
 
-            for(LynxModule module : robot.getControllers()){
+            for (LynxModule module : robot.getControllers()) {
                 module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
             }
-
-            robot.reset();
+        }
 
             while (opModeIsActive()) {
                 robot.read();
@@ -153,5 +152,5 @@ public class mainRightAuto extends LinearOpMode {
 
         }
 
-    }
 }
+
