@@ -20,7 +20,6 @@ import java.util.List;
 
 public class HorizontalSlidePIDTuner extends OpMode {
     public DcMotorEx liftMotorOne;
-    public DcMotorEx liftEncoder;
     public PIDController liftController;
 
     public ServoImplEx left, right;
