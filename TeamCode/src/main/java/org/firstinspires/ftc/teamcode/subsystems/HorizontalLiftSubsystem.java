@@ -38,7 +38,10 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     public HorizontalLiftSubsystem(HardwareMap hardwareMap, boolean isAuto){
         horizontalLift = new MotorEx(hardwareMap, "horizontalMotor");
 
-//        horizontalLift.encoder.setDirection(Motor.Direction.REVERSE);
+
+
+        horizontalLift.encoder.setDirection(Motor.Direction.REVERSE);
+        horizontalLift.setInverted(true);
         controller = new PIDController(P, I, D);
         controller.setPID(P, I, D);
         this.isAuto = isAuto;
@@ -64,7 +67,7 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     }
 
     public void write(){
-        horizontalLift.set(-liftPower);
+        horizontalLift.set(liftPower);
     }
 
     public void setTargetLiftPosition(double v){targetLiftPosition = v;}
