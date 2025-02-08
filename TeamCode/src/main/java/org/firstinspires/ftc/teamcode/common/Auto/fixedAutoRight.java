@@ -125,9 +125,7 @@ public class fixedAutoRight extends LinearOpMode {
             robot.write();
         }
 
-        for (LynxModule module : robot.getControllers()) {
-            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
-        }
+
         //Auto Coded Here (so far prelaod only)
         CommandScheduler.getInstance().schedule(
 
@@ -187,9 +185,7 @@ public class fixedAutoRight extends LinearOpMode {
             loopTime = loop;
             telemetry.update();
 
-            for (LynxModule module : robot.getControllers()) {
-                module.clearBulkCache();
-            }
+
         }
     }
 }
