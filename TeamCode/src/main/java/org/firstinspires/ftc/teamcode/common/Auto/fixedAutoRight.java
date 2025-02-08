@@ -50,7 +50,7 @@ public class fixedAutoRight extends LinearOpMode {
 
         TrajectorySequence toSamplePush1 = robot.drive.trajectorySequenceBuilder(toDepoAdjust.end())
                 .lineTo(new Vector2d(25.5, -38.0))
-                .splineToConstantHeading(new Vector2d(45.1, -9.2), 0)
+                .splineToConstantHeading(new Vector2d(44.7, -9.2), 0)
                 .build();
 
         TrajectorySequence toObservationSample1 = robot.drive.trajectorySequenceBuilder(toSamplePush1.end())
@@ -68,7 +68,7 @@ public class fixedAutoRight extends LinearOpMode {
 
         TrajectorySequence toSamplePush3 = robot.drive.trajectorySequenceBuilder(toObservationSample2.end())
                 .forward(35)
-                .splineToConstantHeading(new Vector2d(63.7, -9.2), 0)
+                .splineToConstantHeading(new Vector2d(64, -9.2), 0)
                 .build();
 
         TrajectorySequence toObservationSample3 = robot.drive.trajectorySequenceBuilder(toSamplePush3.end())
@@ -77,15 +77,15 @@ public class fixedAutoRight extends LinearOpMode {
                 .build();
 
         TrajectorySequence turnToPickup = robot.drive.trajectorySequenceBuilder(toObservationSample3.end())
-                .turn(Math.toRadians(192))
+                .turn(Math.toRadians(190))
                 .build();
 
         TrajectorySequence forwardToGrab = robot.drive.trajectorySequenceBuilder(turnToPickup.end())
-                .forward(3)
+                .forward(2)
                 .build();
 
         TrajectorySequence turnAndDepo1 = robot.drive.trajectorySequenceBuilder(forwardToGrab.end())
-                .turn(-Math.toRadians(192))
+                .turn(-Math.toRadians(190))
                 .lineTo(new Vector2d(5, -26))
                 .build();
 
