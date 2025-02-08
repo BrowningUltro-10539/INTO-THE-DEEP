@@ -21,7 +21,7 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
+        CommandScheduler.getInstance().reset();
 
         Robot robot = new Robot(hardwareMap, false);
 
@@ -56,9 +56,7 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
 //        robot.intake.setClaw();
 //        robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
 
-        for (LynxModule module : robot.getControllers()) {
-            module.clearBulkCache();
-        }
+        
 
         if (isStopRequested()) return;
 
