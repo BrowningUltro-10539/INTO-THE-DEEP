@@ -49,7 +49,8 @@ public class fixedAutoRight extends LinearOpMode {
                 .build();
 
         TrajectorySequence toSamplePush1 = robot.drive.trajectorySequenceBuilder(toDepoAdjust.end())
-                .lineTo(new Vector2d(25.5, -38.0))
+                .lineTo(new Vector2d(36, -38.0))
+                .lineTo(new Vector2d(36, -8))
                 .splineToConstantHeading(new Vector2d(44.7, -9.2), 0)
                 .build();
 
