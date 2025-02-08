@@ -65,8 +65,8 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-
             robot.read();
+
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
@@ -162,7 +162,10 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
 
             CommandScheduler.getInstance().run();
             robot.write();
-            robot.loop();
+            robot.v_lift.loop();
+            robot.h_lift.loop();
+            robot.intake.loop();
+            robot.outtake.loop();
 
             for(LynxModule module : robot.getControllers()){
                 module.clearBulkCache();

@@ -134,7 +134,6 @@ public class QualOpModeV2RobotCentric extends LinearOpMode {
 
             CommandScheduler.getInstance().run();
             robot.write();
-            robot.loop();
         }
     }
 }

@@ -82,10 +82,6 @@ public class Robot {
         }
     }
 
-    public void loop() {
-        h_lift.loop();
-        v_lift.loop();
-    }
 
     public void reset() {
         h_lift.horizontalLift.resetEncoder();

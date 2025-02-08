@@ -152,7 +152,7 @@ public class SuperqualOpModeFieldCentric extends LinearOpMode {
 
             CommandScheduler.getInstance().run();
             robot.write();
-            robot.loop();
+
         }
     }
 }
