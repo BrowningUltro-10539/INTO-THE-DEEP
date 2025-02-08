@@ -27,7 +27,7 @@ public class TESTEfficientQualOpMode extends LinearOpMode {
     public static double slideD = 0;
     public static double slideKg = 0;
     public static double SLIDE_TICKS_PER_INCH = 2 * Math.PI * 0.764445002 / 384.5;
-    public static double targetPosition = 3;
+    public static double targetPosition = 2;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -99,8 +99,8 @@ public class TESTEfficientQualOpMode extends LinearOpMode {
             if (gamepad1.a) robot.intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
             if (gamepad1.dpad_left) robot.intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
             if (gamepad1.dpad_right) robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN);
-            if (gamepad1.dpad_up) targetPosition = 15;
-            if (gamepad1.dpad_down) targetPosition = 4;
+            if (gamepad1.dpad_up) targetPosition = 25;
+            if (gamepad1.dpad_down) targetPosition = 2;
 
             if (gamepad2.y) robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN);
             if (gamepad2.b) robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT);
