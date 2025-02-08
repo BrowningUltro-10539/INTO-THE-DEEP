@@ -23,7 +23,7 @@ public class AutoRedPlan {
                         .splineToConstantHeading(new Vector2d(56.7, -9.2), 0)
                         .forward(-50)
                         .forward(40)
-                        .splineToConstantHeading(new Vector2d(61.7, -9.2), 0)
+                        .splineToConstantHeading(new Vector2d(63.7, -9.2), 0)
                         .forward(-45)
                         .strafeLeft(15)
                         .turn(Math.PI)

@@ -34,7 +34,7 @@ public class HorizontalSlidePIDTuner extends OpMode {
     public static double slideI = 0;
     public static double slideD = 0;
     public static double slideKg = 0;
-    public static double SLIDE_TICKS_PER_INCH = 2 * Math.PI * 0.764445002 / 537.7;
+    public static double SLIDE_TICKS_PER_INCH = 2 * Math.PI * 0.764445002 / 384.5;
     public static double targetPosition = 0;
     public List<LynxModule> controllers;
 

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import com.qualcomm.robotcore.eventloop.opmode.OpModeInternal;
@@ -112,11 +113,11 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
             }
 
             if(gamepad1.dpad_up){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 11, 2, 100, 100));
+                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 10, 2, 100, 100));
             }
 
             if(gamepad1.dpad_down){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, -2, 2, 100, 100));
+                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 0, 2, 100, 100));
             }
 
             // gamepad 2. y = yellow, b = red, a = green, x = blue
@@ -150,7 +151,6 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
                 CommandScheduler.getInstance().schedule(new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_SCORE)));
 
             }
-
 
             CommandScheduler.getInstance().run();
             robot.write();
