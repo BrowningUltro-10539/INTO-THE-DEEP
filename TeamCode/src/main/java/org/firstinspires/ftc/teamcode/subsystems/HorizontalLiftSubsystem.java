@@ -28,7 +28,7 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     private double liftPosition, targetLiftPosition;
 
     public double liftPower;
-    
+
     private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 384.5;
     private boolean isAuto = false;
 

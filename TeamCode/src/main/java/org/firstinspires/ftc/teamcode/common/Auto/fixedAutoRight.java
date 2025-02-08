@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -123,6 +124,10 @@ public class fixedAutoRight extends LinearOpMode {
             robot.read();
             robot.write();
         }
+
+        for (LynxModule module : robot.getControllers()) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
         //Auto Coded Here (so far prelaod only)
         CommandScheduler.getInstance().schedule(
 
@@ -181,6 +186,10 @@ public class fixedAutoRight extends LinearOpMode {
             telemetry.addData("hz ", 1000000000 / (loop - loopTime));
             loopTime = loop;
             telemetry.update();
+
+            for (LynxModule module : robot.getControllers()) {
+                module.clearBulkCache();
+            }
         }
     }
 }

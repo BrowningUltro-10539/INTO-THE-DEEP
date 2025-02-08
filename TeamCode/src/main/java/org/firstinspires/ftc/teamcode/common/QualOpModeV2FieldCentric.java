@@ -56,6 +56,10 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
 //        robot.intake.setClaw();
 //        robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
 
+        for (LynxModule module : robot.getControllers()) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
+
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
@@ -155,6 +159,10 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
             CommandScheduler.getInstance().run();
             robot.write();
             robot.loop();
+
+            for (LynxModule module : robot.getControllers()) {
+                module.clearBulkCache();
+            }
         }
     }
 }
