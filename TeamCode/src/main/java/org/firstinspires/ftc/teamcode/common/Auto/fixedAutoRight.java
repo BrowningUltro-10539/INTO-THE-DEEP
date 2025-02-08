@@ -125,13 +125,13 @@ public class fixedAutoRight extends LinearOpMode {
         }
         //Auto Coded Here (so far prelaod only)
         CommandScheduler.getInstance().schedule(
-<<<<<<< HEAD
+
                 new SequentialCommandGroup(new InstantCommand (() ->robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
                         new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_UP)),
-=======
+
                 new SequentialCommandGroup(new InstantCommand(() -> robot.intake.setRotate(IntakeSubsystem.ROTATE_UP)),
                         new InstantCommand (() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
->>>>>>> a8e32540d46498a0d8f5f00657a35591ce7d8468
+
                         new ParallelCommandGroup(
                                 new InstantCommand(() ->robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP)),
                                 new TrajectorySequenceFollowerCommand(robot.drive, toDepoPreLoad)
@@ -157,7 +157,7 @@ public class fixedAutoRight extends LinearOpMode {
                         new SequentialCommandGroup(new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)), new WaitCommand(300), new TrajectorySequenceFollowerCommand(robot.drive, turnAndDepo1PullBack), new WaitCommand(300), new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)))
 
                 )
-        );
+        ));
 
         waitForStart();
 
