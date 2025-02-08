@@ -41,16 +41,16 @@ public class fixedAutoRight extends LinearOpMode {
 
         //space for trajectories
         TrajectorySequence toDepoPreLoad = robot.drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(0, -27))
+                .lineTo(new Vector2d(0, -26))
                 .build();
 
         TrajectorySequence toDepoAdjust = robot.drive.trajectorySequenceBuilder(toDepoPreLoad.end())
-                .lineTo(new Vector2d(0, -28))
+                .lineTo(new Vector2d(0, -29.8))
                 .build();
 
         TrajectorySequence toSamplePush1 = robot.drive.trajectorySequenceBuilder(toDepoAdjust.end())
-                .lineTo(new Vector2d(27.5, -38.11))
-                .splineToConstantHeading(new Vector2d(46.7, -9.2), 0)
+                .lineTo(new Vector2d(25.5, -38.0))
+                .splineToConstantHeading(new Vector2d(45.1, -9.2), 0)
                 .build();
 
         TrajectorySequence toObservationSample1 = robot.drive.trajectorySequenceBuilder(toSamplePush1.end())
@@ -77,12 +77,20 @@ public class fixedAutoRight extends LinearOpMode {
                 .build();
 
         TrajectorySequence turnToPickup = robot.drive.trajectorySequenceBuilder(toObservationSample3.end())
-                .turn(Math.PI)
+                .turn(Math.toRadians(192))
                 .build();
 
-        TrajectorySequence turnAndDepo1 = robot.drive.trajectorySequenceBuilder(turnToPickup.end())
-                .turn(-Math.PI)
-                .lineTo(new Vector2d(0, -32))
+        TrajectorySequence forwardToGrab = robot.drive.trajectorySequenceBuilder(turnToPickup.end())
+                .forward(3)
+                .build();
+
+        TrajectorySequence turnAndDepo1 = robot.drive.trajectorySequenceBuilder(forwardToGrab.end())
+                .turn(-Math.toRadians(192))
+                .lineTo(new Vector2d(5, -26))
+                .build();
+
+        TrajectorySequence turnAndDepo1PullBack = robot.drive.trajectorySequenceBuilder(turnAndDepo1.end())
+                .lineTo(new Vector2d(5, -29.5))
                 .build();
 
 
@@ -128,11 +136,25 @@ public class fixedAutoRight extends LinearOpMode {
                                 new TrajectorySequenceFollowerCommand(robot.drive, toDepoPreLoad)
                         ),
                         new WaitCommand(100),
-                        new SequentialCommandGroup(new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)), new WaitCommand(200), new TrajectorySequenceFollowerCommand(robot.drive, toDepoAdjust), new WaitCommand(200), new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT))),
+                        new SequentialCommandGroup(new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)), new WaitCommand(300), new TrajectorySequenceFollowerCommand(robot.drive, toDepoAdjust), new WaitCommand(300), new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT))),
+                        new WaitCommand(100),
                         new TrajectorySequenceFollowerCommand(robot.drive, toSamplePush1), new TrajectorySequenceFollowerCommand(robot.drive, toObservationSample1),
                         new TrajectorySequenceFollowerCommand(robot.drive, toSamplePush2), new TrajectorySequenceFollowerCommand(robot.drive, toObservationSample2),
                         new TrajectorySequenceFollowerCommand(robot.drive, toSamplePush3), new TrajectorySequenceFollowerCommand(robot.drive, toObservationSample3),
-                        new TrajectorySequenceFollowerCommand(robot.drive, turnToPickup)
+                        new ParallelCommandGroup(
+                                new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_PICKUP_SPECIMEN)),
+                                new InstantCommand(() ->robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_SCORE))
+                        ),
+                        new TrajectorySequenceFollowerCommand(robot.drive, turnToPickup),
+                        new TrajectorySequenceFollowerCommand(robot.drive, forwardToGrab),
+                        new WaitCommand(500),
+                        new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE)),
+                        new WaitCommand(500),
+                        new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
+                        new WaitCommand(500),
+                        new ParallelCommandGroup( new TrajectorySequenceFollowerCommand(robot.drive, turnAndDepo1), new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP))),
+                        new SequentialCommandGroup(new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)), new WaitCommand(300), new TrajectorySequenceFollowerCommand(robot.drive, turnAndDepo1PullBack), new WaitCommand(300), new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)))
+
                 )
         );
 
