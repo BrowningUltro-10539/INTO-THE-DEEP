@@ -18,14 +18,18 @@ import java.util.List;
 @TeleOp
 public class ServoPositionTest extends OpMode {
     private ServoImplEx servo, leftClaw, rightClaw;
-    public static double pos = 0, type = 0;
+    public static double pos1 = 0, type = 0;
+
+    public static double pos2 = 0.5;
     @Override
     public void init() {
-        servo = hardwareMap.get(ServoImplEx.class, "leftServo");
+        servo = hardwareMap.get(ServoImplEx.class, "leftArm");
     }
     @Override
     public void loop() {
-        if(type == 0) servo.setPosition(pos);
+        if(gamepad1.b) servo.setPosition(pos1);
+
+        if(gamepad2.a){servo.setPosition(pos2);}
 
     }
 }

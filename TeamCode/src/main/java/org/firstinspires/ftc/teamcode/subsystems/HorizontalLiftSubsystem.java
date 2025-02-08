@@ -27,11 +27,8 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
 //    private final ElapsedTime timer, voltageTimer;
     private double liftPosition, targetLiftPosition;
 
-<<<<<<< HEAD
     public double liftPower;
-=======
-    public double liftPower = 0;
->>>>>>> a8e32540d46498a0d8f5f00657a35591ce7d8468
+    
     private final double SLIDE_TICK = 2 * Math.PI * 0.701771654 / 384.5;
     private boolean isAuto = false;
 
