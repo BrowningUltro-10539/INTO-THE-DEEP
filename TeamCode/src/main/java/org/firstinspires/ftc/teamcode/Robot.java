@@ -50,7 +50,7 @@ public class Robot {
 
         if(isAuto){
             v_lift.lift2.encoder.reset();
-            h_lift.horizontalLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            h_lift.horizontalLift.resetEncoder();
         }
 
         controllers = hardwareMap.getAll(LynxModule.class);
@@ -88,7 +88,7 @@ public class Robot {
     }
 
     public void reset() {
-        h_lift.horizontalLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h_lift.horizontalLift.resetEncoder();
         v_lift.lift2.resetEncoder();
     }
 

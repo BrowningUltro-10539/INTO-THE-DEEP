@@ -48,6 +48,10 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
+        for(LynxModule module : robot.getControllers()){
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
+
         waitForStart();
         // init position for intake claw pivot and claw open respectively
         robot.reset();
@@ -56,11 +60,13 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
 //        robot.intake.setClaw();
 //        robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP);
 
-        
+
 
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+
+            robot.read();
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
@@ -157,6 +163,10 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
             CommandScheduler.getInstance().run();
             robot.write();
             robot.loop();
+
+            for(LynxModule module : robot.getControllers()){
+                module.clearBulkCache();
+            }
 
 
         }

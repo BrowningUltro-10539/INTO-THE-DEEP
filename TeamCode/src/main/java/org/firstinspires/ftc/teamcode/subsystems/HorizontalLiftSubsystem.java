@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HorizontalLiftSubsystem extends SubsystemBase {
 
 
-    public final DcMotorEx horizontalLift;
+    public final MotorEx horizontalLift;
     private final PIDController controller;
     private MotionProfile profile;
     public MotionState state;
@@ -36,7 +36,8 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     //14 full extension
     //4 for transfer when from full extension
     public HorizontalLiftSubsystem(HardwareMap hardwareMap, boolean isAuto){
-        horizontalLift = hardwareMap.get(DcMotorEx.class, "horizontalMotor");
+        horizontalLift = new MotorEx(hardwareMap, "horizontalMotor");
+
 //        horizontalLift.encoder.setDirection(Motor.Direction.REVERSE);
         controller = new PIDController(P, I, D);
         controller.setPID(P, I, D);
@@ -63,7 +64,7 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     }
 
     public void write(){
-        horizontalLift.setPower(-liftPower);
+        horizontalLift.set(-liftPower);
     }
 
     public void setTargetLiftPosition(double v){targetLiftPosition = v;}

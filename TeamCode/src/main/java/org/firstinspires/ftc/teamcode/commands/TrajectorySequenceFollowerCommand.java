@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.Auto;
+package org.firstinspires.ftc.teamcode.commands;
 
 
 
