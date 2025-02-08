@@ -95,12 +95,13 @@ public class fixedAutoRight extends LinearOpMode {
                 .build();
 
 
-        TrajectorySequence toPickupAndTurn1 = robot.drive.trajectorySequenceBuilder(turnAndDepo1.end())
+        TrajectorySequence toPark = robot.drive.trajectorySequenceBuilder(turnAndDepo1.end())
                 .lineTo(new Vector2d(46.7, -54.2))
-                .turn(Math.PI)
+                .strafeRight(7)
+                .forward(-5)
                 .build();
 
-        TrajectorySequence turnAndDepo2 = robot.drive.trajectorySequenceBuilder(toPickupAndTurn1.end())
+        TrajectorySequence turnAndDepo2 = robot.drive.trajectorySequenceBuilder(toPark.end())
                 .turn(-Math.PI)
                 .lineTo(new Vector2d(0, -32))
                 .build();
@@ -158,7 +159,8 @@ public class fixedAutoRight extends LinearOpMode {
                         new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
                         new WaitCommand(500),
                         new ParallelCommandGroup( new TrajectorySequenceFollowerCommand(robot.drive, turnAndDepo1), new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP))),
-                        new SequentialCommandGroup(new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)), new WaitCommand(300), new TrajectorySequenceFollowerCommand(robot.drive, turnAndDepo1PullBack), new WaitCommand(300), new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)))
+                        new SequentialCommandGroup(new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)), new WaitCommand(300), new TrajectorySequenceFollowerCommand(robot.drive, turnAndDepo1PullBack), new WaitCommand(300), new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT))),
+                        new TrajectorySequenceFollowerCommand(robot.drive, toPark)
 
                 )
         ));
