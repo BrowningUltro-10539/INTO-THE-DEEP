@@ -22,12 +22,12 @@ import java.util.List;
 
 @TeleOp
 public class TESTEfficientQualOpMode extends LinearOpMode {
-    public static double slideP = 0.15;
-    public static double slideI = 0;
-    public static double slideD = 0;
-    public static double slideKg = 0;
-    public static double SLIDE_TICKS_PER_INCH = 2 * Math.PI * 0.764445002 / 384.5;
-    public static double targetPosition = 2;
+//    public static double slideP = 0.13;
+//    public static double slideI = 0;
+//    public static double slideD = 0;
+//    public static double slideKg = 0;
+//    public static double SLIDE_TICKS_PER_INCH = 2 * Math.PI * 0.764445002 / 384.5;
+//    public static double targetPosition = -1;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,28 +49,28 @@ public class TESTEfficientQualOpMode extends LinearOpMode {
         )));
 
         DcMotorEx liftMotorOne = hardwareMap.get(DcMotorEx.class, "horizontalMotor");
-        liftMotorOne.setDirection(DcMotorSimple.Direction.REVERSE);
-        PIDController liftController = new PIDController(slideP, slideI, slideD);
+//        liftMotorOne.setDirection(DcMotorSimple.Direction.REVERSE);
+//        PIDController liftController = new PIDController(slideP, slideI, slideD);
 
         List<LynxModule> controllers = hardwareMap.getAll(LynxModule.class);
-        for (LynxModule module : controllers) {
-            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
-        }
+//        for (LynxModule module : controllers) {
+//            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+//        }
 
         waitForStart();
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            for (LynxModule module : controllers) {
-                module.clearBulkCache(); // Clear bulk cache BEFORE reading
-            }
+//            for (LynxModule module : controllers) {
+//                module.clearBulkCache(); // Clear bulk cache BEFORE reading
+//            }
 
             robot.read();
 
             // PID control for slides
-            double liftPosition = liftMotorOne.getCurrentPosition() * SLIDE_TICKS_PER_INCH;
-            double liftPower = liftController.calculate(liftPosition, targetPosition);
-            liftMotorOne.setPower(liftPower);
+//            double liftPosition = liftMotorOne.getCurrentPosition() * SLIDE_TICKS_PER_INCH;
+//            double liftPower = liftController.calculate(liftPosition, targetPosition);
+//            liftMotorOne.setPower(liftPower);
 
             // Read IMU heading inside loop for real-time field-centric control
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
@@ -79,6 +79,8 @@ public class TESTEfficientQualOpMode extends LinearOpMode {
             double y = -gamepad1.left_stick_y;
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
+
+            double motorPower = -gamepad2.left_stick_y;
 
             if (gamepad1.left_bumper) imu.resetYaw();
 
@@ -93,14 +95,16 @@ public class TESTEfficientQualOpMode extends LinearOpMode {
             frontRightMotor.setPower((rotY - rotX - rx) / denominator);
             backRightMotor.setPower((rotY + rotX - rx) / denominator);
 
+            liftMotorOne.setPower(motorPower);
+
             // Optimize button press actions
             if (gamepad1.y) robot.intake.setRotate(IntakeSubsystem.ROTATE_UP);
             if (gamepad1.b) robot.intake.setRotate(IntakeSubsystem.ROTATE_ENTER);
             if (gamepad1.a) robot.intake.setRotate(IntakeSubsystem.ROTATE_DOWN);
             if (gamepad1.dpad_left) robot.intake.setClaw(IntakeSubsystem.CLAW_CLOSE);
             if (gamepad1.dpad_right) robot.intake.setClaw(IntakeSubsystem.CLAW_OPEN);
-            if (gamepad1.dpad_up) targetPosition = 25;
-            if (gamepad1.dpad_down) targetPosition = 2;
+//            if (gamepad1.dpad_up) targetPosition = 25;
+//            if (gamepad1.dpad_down) ;
 
             if (gamepad2.y) robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN);
             if (gamepad2.b) robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT);

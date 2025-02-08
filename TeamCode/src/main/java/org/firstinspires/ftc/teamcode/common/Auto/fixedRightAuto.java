@@ -40,7 +40,7 @@ public class fixedRightAuto extends LinearOpMode {
 
         //space for trajectories
         TrajectorySequence toDepoPreLoad = robot.drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(0, -26))
+                .lineTo(new Vector2d(0, -25.8))
                 .build();
 
         TrajectorySequence toDepoAdjust = robot.drive.trajectorySequenceBuilder(toDepoPreLoad.end())
@@ -49,7 +49,7 @@ public class fixedRightAuto extends LinearOpMode {
 
         TrajectorySequence toSamplePush1 = robot.drive.trajectorySequenceBuilder(toDepoAdjust.end())
                 .lineTo(new Vector2d(36, -38.0))
-                .lineTo(new Vector2d(36, -8))
+                .lineTo(new Vector2d(36, -9))
                 .splineToConstantHeading(new Vector2d(44.7, -9.2), 0)
                 .build();
 
@@ -95,7 +95,7 @@ public class fixedRightAuto extends LinearOpMode {
 
 
         TrajectorySequence toPark = robot.drive.trajectorySequenceBuilder(turnAndDepo1.end())
-                .lineTo(new Vector2d(46.7, -54.2))
+                .lineTo(new Vector2d(46.7, -60.2))
                 .strafeRight(7)
                 .forward(-5)
                 .build();
@@ -152,14 +152,13 @@ public class fixedRightAuto extends LinearOpMode {
                         ),
                         new TrajectorySequenceFollowerCommand(robot.drive, turnToPickup),
                         new TrajectorySequenceFollowerCommand(robot.drive, forwardToGrab),
-                        new WaitCommand(500),
                         new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_CLOSE)),
                         new WaitCommand(500),
                         new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT)),
                         new WaitCommand(500),
                         new ParallelCommandGroup( new TrajectorySequenceFollowerCommand(robot.drive, turnAndDepo1), new InstantCommand(() -> robot.outtake.setRotate(OuttakeSubsystem.ROTATE_SPECIMEN_PICKUP))),
                         new SequentialCommandGroup(new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)), new WaitCommand(300), new TrajectorySequenceFollowerCommand(robot.drive, turnAndDepo1PullBack), new WaitCommand(300), new InstantCommand(() -> robot.outtake.setClaw(OuttakeSubsystem.CLAW_OPEN)), new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_MIDPOINT))),
-                        new TrajectorySequenceFollowerCommand(robot.drive, toPark)
+                        new ParallelCommandGroup(new TrajectorySequenceFollowerCommand(robot.drive, toPark), new InstantCommand(() -> robot.outtake.setArmPos(OuttakeSubsystem.ARM_DEPOSIT)))
 
                 )
         ));
