@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import com.qualcomm.robotcore.eventloop.opmode.OpModeInternal;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.teamcode.Robot;
@@ -16,9 +18,17 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
+import java.util.List;
+
 @TeleOp
 public class QualOpModeV2FieldCentric extends LinearOpMode {
-
+    public static double slideP = 0.15;
+    public static double slideI = 0;
+    public static double slideD = 0;
+    public static double slideKg = 0;
+    public static double SLIDE_TICKS_PER_INCH = 2 * Math.PI * 0.764445002 / 384.5;
+    public static double targetPosition = 3;
+    public List<LynxModule> controllers;
     @Override
     public void runOpMode() throws InterruptedException {
         CommandScheduler.getInstance().reset();
@@ -30,6 +40,9 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
 
+
+
+
         frontLeftMotor.setPower(0);
         backLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
@@ -37,6 +50,9 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -47,6 +63,14 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
+
+        DcMotorEx liftMotorOne;
+        PIDController liftController;
+
+        liftController = new PIDController(slideP, slideI, slideD);
+        liftMotorOne = hardwareMap.get(DcMotorEx.class, "horizontalMotor");
+        liftMotorOne.setDirection(DcMotorSimple.Direction.REVERSE); // !!!!
+        controllers = hardwareMap.getAll(LynxModule.class);
 
         for(LynxModule module : robot.getControllers()){
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
@@ -66,6 +90,12 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
 
         while (opModeIsActive()) {
             robot.read();
+
+            liftController.setPID(slideP, slideI, slideD);
+            double liftPosition = liftMotorOne.getCurrentPosition() * SLIDE_TICKS_PER_INCH;
+            double liftPower = liftController.calculate(liftPosition, targetPosition);
+
+            liftMotorOne.setPower(liftPower);
 
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x;
@@ -121,11 +151,13 @@ public class QualOpModeV2FieldCentric extends LinearOpMode {
             }
 
             if(gamepad1.dpad_up){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 10, 2, 100, 100));
+//                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 4, 2, 100, 100));
+                targetPosition = 15;
             }
 
             if(gamepad1.dpad_down){
-                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 0, 2, 100, 100));
+//                CommandScheduler.getInstance().schedule(new LiftPositionCommand(robot.h_lift, 0, 2, 100, 100));
+                targetPosition = 4;
             }
 
             // gamepad 2. y = yellow, b = red, a = green, x = blue

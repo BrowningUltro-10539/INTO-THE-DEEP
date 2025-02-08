@@ -63,7 +63,7 @@ public class HorizontalLiftSubsystem extends SubsystemBase {
     }
 
     public void read(){
-        liftPosition = horizontalLift.getCurrentPosition() * SLIDE_TICK;
+        liftPosition = horizontalLift.encoder.getPosition() * SLIDE_TICK;
     }
 
     public void write(){

@@ -21,7 +21,7 @@ public class LiftPositionCommand extends CommandBase {
     @Override
     public void execute() {
 
-        lift.newProfile(position, max_v, max_a);
+//        lift.newProfile(position, max_v, max_a);
      lift.setTargetLiftPosition(position);
     }
 
